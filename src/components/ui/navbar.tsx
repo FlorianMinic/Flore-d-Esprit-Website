@@ -2,11 +2,12 @@
 
 import Link from 'next/link';
 import { useState } from 'react';
-import { useLocale } from '@/hooks/useLocale'; // Hook de langue (dans src/hooks/useLocale.ts)
+import { FaYoutube, FaTwitter, FaTiktok, FaSpotify, FaDeezer } from 'react-icons/fa';
+import { HiOutlineMusicalNote } from 'react-icons/hi2';
+import { LanguageSwitcher } from '@/components/ui/languageSwitcher';
 
 export function NavBar() {
   const [isOpen, setIsOpen] = useState(false);
-  const { locale, toggleLocale } = useLocale();
 
   return (
     <nav className="bg-white shadow-md fixed w-full z-10">
@@ -19,40 +20,7 @@ export function NavBar() {
             </Link>
           </div>
 
-          {/* Desktop menu */}
-          <div className="hidden sm:flex sm:items-center sm:space-x-4">
-            <Link href="/">
-              <span className="text-gray-700 hover:text-purple-600 px-3 py-2 rounded-md text-sm font-medium">
-                {locale === 'fr' ? 'Accueil' : 'Home'}
-              </span>
-            </Link>
-            <Link href="/presse">
-              <span className="text-gray-700 hover:text-purple-600 px-3 py-2 rounded-md text-sm font-medium">
-                {locale === 'fr' ? 'Dossier de presse' : 'Press Kit'}
-              </span>
-            </Link>
-            <Link href="/about">
-              <span className="text-gray-700 hover:text-purple-600 px-3 py-2 rounded-md text-sm font-medium">
-                {locale === 'fr' ? 'À propos' : 'About'}
-              </span>
-            </Link>
-            <Link href="/contact">
-              <span className="text-gray-700 hover:text-purple-600 px-3 py-2 rounded-md text-sm font-medium">
-                {locale === 'fr' ? 'Contact' : 'Contact'}
-              </span>
-            </Link>
-
-            {/* BOUTON LANGUE */}
-            <button
-              onClick={toggleLocale}
-              className="ml-6 px-3 py-2 text-sm font-medium border border-purple-600 text-purple-600 rounded-md hover:bg-purple-600 hover:text-white transition"
-              aria-label="Changer la langue"
-            >
-              {locale === 'fr' ? 'EN' : 'FR'}
-            </button>
-          </div>
-
-          {/* Mobile burger icon */}
+          {/* Menu toggle (mobile) */}
           <div className="flex items-center sm:hidden">
             <button
               onClick={() => setIsOpen(!isOpen)}
@@ -67,6 +35,7 @@ export function NavBar() {
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
+                aria-hidden="true"
               >
                 {isOpen ? (
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -76,38 +45,68 @@ export function NavBar() {
               </svg>
             </button>
           </div>
+
+          {/* Desktop menu */}
+          <div className="hidden sm:flex sm:items-center sm:space-x-4">
+            <Link href="/">
+              <span className="text-gray-700 hover:text-purple-600 px-3 py-2 rounded-md text-sm font-medium">Home</span>
+            </Link>
+            <Link href="/presskit">
+              <span className="text-gray-700 hover:text-purple-600 px-3 py-2 rounded-md text-sm font-medium">Press Kit</span>
+            </Link>
+            <Link href="/about">
+              <span className="text-gray-700 hover:text-purple-600 px-3 py-2 rounded-md text-sm font-medium">About</span>
+            </Link>
+            <Link href="/contact">
+              <span className="text-gray-700 hover:text-purple-600 px-3 py-2 rounded-md text-sm font-medium">Contact</span>
+            </Link>
+
+            {/* Réseaux sociaux */}
+            <div className="flex items-center gap-3 pl-4">
+              <Link href="https://youtube.com" target="_blank" className="text-purple-600 hover:scale-110 transition">
+                <FaYoutube />
+              </Link>
+              <Link href="https://twitter.com" target="_blank" className="text-purple-600 hover:scale-110 transition">
+                <FaTwitter />
+              </Link>
+              <Link href="https://tiktok.com" target="_blank" className="text-purple-600 hover:scale-110 transition">
+                <FaTiktok />
+              </Link>
+              <Link href="https://spotify.com" target="_blank" className="text-purple-600 hover:scale-110 transition">
+                <FaSpotify />
+              </Link>
+              <Link href="https://deezer.com" target="_blank" className="text-purple-600 hover:scale-110 transition">
+                <FaDeezer />
+              </Link>
+              <Link href="https://app.suno.ai/profile/FloreDesprit" target="_blank" className="text-purple-600 hover:scale-110 transition">
+                <HiOutlineMusicalNote />
+              </Link>
+            </div>
+
+            {/* Sélecteur de langue */}
+            <LanguageSwitcher />
+          </div>
         </div>
       </div>
 
-      {/* Mobile menu dropdown */}
+      {/* Mobile menu */}
       {isOpen && (
-        <div className="sm:hidden px-2 pt-2 pb-3 space-y-1" id="mobile-menu">
-          <Link href="/">
-            <span className="block text-gray-700 hover:text-purple-600 px-3 py-2 rounded-md text-base font-medium">
-              {locale === 'fr' ? 'Accueil' : 'Home'}
-            </span>
-          </Link>
-          <Link href="/presse">
-            <span className="block text-gray-700 hover:text-purple-600 px-3 py-2 rounded-md text-base font-medium">
-              {locale === 'fr' ? 'Dossier de presse' : 'Press Kit'}
-            </span>
-          </Link>
-          <Link href="/about">
-            <span className="block text-gray-700 hover:text-purple-600 px-3 py-2 rounded-md text-base font-medium">
-              {locale === 'fr' ? 'À propos' : 'About'}
-            </span>
-          </Link>
-          <Link href="/contact">
-            <span className="block text-gray-700 hover:text-purple-600 px-3 py-2 rounded-md text-base font-medium">
-              {locale === 'fr' ? 'Contact' : 'Contact'}
-            </span>
-          </Link>
-          <button
-            onClick={toggleLocale}
-            className="w-full text-left px-3 py-2 text-base font-medium text-purple-600 border border-purple-600 rounded-md hover:bg-purple-600 hover:text-white transition"
-          >
-            {locale === 'fr' ? 'EN' : 'FR'}
-          </button>
+        <div className="sm:hidden" id="mobile-menu">
+          <div className="px-2 pt-2 pb-3 space-y-1">
+            <Link href="/">
+              <span className="block text-gray-700 hover:text-purple-600 px-3 py-2 rounded-md text-base font-medium">Home</span>
+            </Link>
+            <Link href="/presskit">
+              <span className="block text-gray-700 hover:text-purple-600 px-3 py-2 rounded-md text-base font-medium">Press Kit</span>
+            </Link>
+            <Link href="/about">
+              <span className="block text-gray-700 hover:text-purple-600 px-3 py-2 rounded-md text-base font-medium">About</span>
+            </Link>
+            <Link href="/contact">
+              <span className="block text-gray-700 hover:text-purple-600 px-3 py-2 rounded-md text-base font-medium">Contact</span>
+            </Link>
+            {/* Réseaux en mobile ? à activer si besoin */}
+          </div>
         </div>
       )}
     </nav>

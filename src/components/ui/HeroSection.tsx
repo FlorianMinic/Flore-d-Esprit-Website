@@ -26,19 +26,13 @@ export function HeroSection() {
         backgroundImage: "url('/images/smiling-man.jpg')",
       }}
     >
-      <div className="relative z-10 text-center text-white px-4">
+      <div className="absolute top-[20%] w-full text-center text-white px-4">
         <h1 className="text-4xl md:text-6xl font-bold mb-4 drop-shadow-[0_0_10px_rgba(255,255,255,0.9)]">
           {t.title}
         </h1>
         <p className="text-lg md:text-2xl drop-shadow mb-6">
           {t.description}
         </p>
-        <a
-          href="#univers"
-          className="inline-block bg-purple-600 hover:bg-purple-700 text-white font-semibold px-6 py-3 rounded-xl mt-4 shadow-lg transition-transform duration-300 hover:scale-105"
-        >
-          {t.button}
-        </a>
       </div>
 
       <a
