@@ -5,9 +5,30 @@ import { useState } from 'react';
 import { FaYoutube, FaTwitter, FaTiktok, FaSpotify, FaDeezer } from 'react-icons/fa';
 import { HiOutlineMusicalNote } from 'react-icons/hi2';
 import { LanguageSwitcher } from '@/components/ui/languageSwitcher';
+import { useLocale } from '@/hooks/useLocale';
 
 export function NavBar() {
   const [isOpen, setIsOpen] = useState(false);
+  const { locale } = useLocale();
+
+  const t = {
+    fr: {
+      home: "Accueil",
+      news: "Actualités",
+      presskit: "Press Kit",
+      about: "À propos",
+      partners: "Partenaires",
+      contact: "Contact",
+    },
+    en: {
+      home: "Home",
+      news: "News",
+      presskit: "Press Kit",
+      about: "About",
+      partners: "Partners",
+      contact: "Contact",
+    },
+  }[locale];
 
   return (
     <nav className="bg-white shadow-md fixed w-full z-10">
@@ -16,7 +37,7 @@ export function NavBar() {
           {/* Logo */}
           <div className="flex-shrink-0 flex items-center">
             <Link href="/">
-              <span className="text-xl font-bold text-purple-600">Flore d'Esprit</span>
+              <span className="text-xl font-bold text-purple-600">Flore d&apos;Esprit</span>
             </Link>
           </div>
 
@@ -49,16 +70,22 @@ export function NavBar() {
           {/* Desktop menu */}
           <div className="hidden sm:flex sm:items-center sm:space-x-4">
             <Link href="/">
-              <span className="text-gray-700 hover:text-purple-600 px-3 py-2 rounded-md text-sm font-medium">Home</span>
+              <span className="text-gray-700 hover:text-purple-600 px-3 py-2 rounded-md text-sm font-medium">{t.home}</span>
+            </Link>
+            <Link href="/news">
+              <span className="text-gray-700 hover:text-purple-600 px-3 py-2 rounded-md text-sm font-medium">{t.news}</span>
             </Link>
             <Link href="/presskit">
-              <span className="text-gray-700 hover:text-purple-600 px-3 py-2 rounded-md text-sm font-medium">Press Kit</span>
+              <span className="text-gray-700 hover:text-purple-600 px-3 py-2 rounded-md text-sm font-medium">{t.presskit}</span>
             </Link>
             <Link href="/about">
-              <span className="text-gray-700 hover:text-purple-600 px-3 py-2 rounded-md text-sm font-medium">About</span>
+              <span className="text-gray-700 hover:text-purple-600 px-3 py-2 rounded-md text-sm font-medium">{t.about}</span>
+            </Link>
+            <Link href="/partners">
+              <span className="text-gray-700 hover:text-purple-600 px-3 py-2 rounded-md text-sm font-medium">{t.partners}</span>
             </Link>
             <Link href="/contact">
-              <span className="text-gray-700 hover:text-purple-600 px-3 py-2 rounded-md text-sm font-medium">Contact</span>
+              <span className="text-gray-700 hover:text-purple-600 px-3 py-2 rounded-md text-sm font-medium">{t.contact}</span>
             </Link>
 
             {/* Réseaux sociaux */}
@@ -94,18 +121,23 @@ export function NavBar() {
         <div className="sm:hidden" id="mobile-menu">
           <div className="px-2 pt-2 pb-3 space-y-1">
             <Link href="/">
-              <span className="block text-gray-700 hover:text-purple-600 px-3 py-2 rounded-md text-base font-medium">Home</span>
+              <span className="block text-gray-700 hover:text-purple-600 px-3 py-2 rounded-md text-base font-medium">{t.home}</span>
+            </Link>
+            <Link href="/news">
+              <span className="block text-gray-700 hover:text-purple-600 px-3 py-2 rounded-md text-base font-medium">{t.news}</span>
             </Link>
             <Link href="/presskit">
-              <span className="block text-gray-700 hover:text-purple-600 px-3 py-2 rounded-md text-base font-medium">Press Kit</span>
+              <span className="block text-gray-700 hover:text-purple-600 px-3 py-2 rounded-md text-base font-medium">{t.presskit}</span>
             </Link>
             <Link href="/about">
-              <span className="block text-gray-700 hover:text-purple-600 px-3 py-2 rounded-md text-base font-medium">About</span>
+              <span className="block text-gray-700 hover:text-purple-600 px-3 py-2 rounded-md text-base font-medium">{t.about}</span>
+            </Link>
+            <Link href="/partners">
+              <span className="block text-gray-700 hover:text-purple-600 px-3 py-2 rounded-md text-base font-medium">{t.partners}</span>
             </Link>
             <Link href="/contact">
-              <span className="block text-gray-700 hover:text-purple-600 px-3 py-2 rounded-md text-base font-medium">Contact</span>
+              <span className="block text-gray-700 hover:text-purple-600 px-3 py-2 rounded-md text-base font-medium">{t.contact}</span>
             </Link>
-            {/* Réseaux en mobile ? à activer si besoin */}
           </div>
         </div>
       )}

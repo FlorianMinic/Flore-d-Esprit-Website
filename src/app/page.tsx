@@ -90,7 +90,7 @@ export default function HomePage() {
 
         <a
           href="#playlist"
-          className="w-14 h-14 bg-purple-300 text-purple-900 rounded-full flex items-center justify-center text-2xl shadow-lg hover:scale-110 transition-all duration-300 animate-bounce absolute bottom-6 left-1/2 transform -translate-x-1/2"
+          className="absolute bottom-6 left-1/2 transform -translate-x-1/2 w-14 h-14 bg-purple-300 text-purple-900 rounded-full flex items-center justify-center text-2xl shadow-lg hover:scale-110 transition-all duration-300 animate-bounce"
           aria-label="Scroll to playlist"
         >
           <FaArrowDown />
@@ -107,7 +107,7 @@ export default function HomePage() {
 
         <div className="flex flex-col md:flex-row gap-8 justify-center items-center">
           <iframe
-            src="https://open.spotify.com/embed/playlist/INSERT_SPOTIFY_PLAYLIST_ID"
+            src="https://open.spotify.com/embed/album/6lC789KhWfIQNHBIENhDmQ"
             width="300"
             height="380"
             allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
@@ -116,8 +116,9 @@ export default function HomePage() {
           ></iframe>
 
           <a
-            href="https://app.suno.ai/profile/FloreDesprit"
+            href="https://suno.com/@flordesprit"
             target="_blank"
+            rel="noopener noreferrer"
             className="w-[300px] h-[380px] rounded-xl bg-purple-200 flex items-center justify-center text-purple-900 font-bold text-xl shadow-lg hover:scale-105 transition"
           >
             {t.sunoText}
@@ -126,7 +127,7 @@ export default function HomePage() {
 
         <a
           href="#videos"
-          className="w-14 h-14 bg-purple-300 text-purple-900 rounded-full flex items-center justify-center text-2xl shadow-lg hover:scale-110 transition-all duration-300 animate-bounce mt-16"
+          className="absolute bottom-6 left-1/2 transform -translate-x-1/2 w-14 h-14 bg-purple-300 text-purple-900 rounded-full flex items-center justify-center text-2xl shadow-lg hover:scale-110 transition-all duration-300 animate-bounce mt-16"
           aria-label="Scroll to videos"
         >
           <FaArrowDown />
@@ -136,7 +137,7 @@ export default function HomePage() {
       {/* SECTION - Vidéos */}
       <section
         id="videos"
-        className="min-h-screen bg-purple-100 text-black px-6 py-20 md:px-20 text-center flex flex-col items-center justify-center"
+        className="min-h-screen bg-purple-100 text-black px-6 py-20 md:px-20 text-center flex flex-col items-center justify-center relative"
       >
         <h2 className="text-3xl md:text-4xl font-bold mb-6">{t.videosTitle}</h2>
         <p className="max-w-2xl mx-auto text-lg leading-relaxed mb-10">{t.videosText}</p>
@@ -153,8 +154,8 @@ export default function HomePage() {
               <iframe
                 width="100%"
                 height="315"
-                src="https://www.youtube.com/embed/VIDEO_ID_1"
-                title="Vidéo 1"
+                src="https://www.youtube.com/embed/Yg9JtvsR61k"
+                title="Vidéo Bubblegum Mood"
                 frameBorder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
@@ -166,8 +167,8 @@ export default function HomePage() {
               <iframe
                 width="100%"
                 height="315"
-                src="https://www.youtube.com/embed/VIDEO_ID_2"
-                title="Vidéo 2"
+                src="https://www.youtube.com/embed/-aX3vJ8RZFQ"
+                title="Vidéo Gravity Falls"
                 frameBorder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
