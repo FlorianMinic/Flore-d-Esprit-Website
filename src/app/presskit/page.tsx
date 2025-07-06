@@ -1,109 +1,93 @@
+// app/press-kit/page.tsx
+
 'use client';
 
 import Link from 'next/link';
-import { useLocale } from '@/hooks/useLocale';
 
 export default function PressKitPage() {
-  const { locale } = useLocale();
-  const isFr = locale === 'fr';
-
   return (
-    <div className="min-h-screen px-6 py-20 md:px-20 bg-white text-black">
-      <h1 className="text-4xl md:text-5xl font-bold text-center mb-10 text-purple-700">
-        {isFr ? 'Dossier de Presse' : 'Press Kit'}
-      </h1>
+    <div className="min-h-screen bg-white text-black px-6 md:px-20 py-20 text-center">
+      <h1 className="text-4xl md:text-5xl font-bold mb-6">Flore d'Esprit – Press Kit</h1>
+      <p className="max-w-2xl mx-auto text-lg mb-10">
+        Un univers électro funky et psychédélique pour faire danser corps et esprits.
+      </p>
 
-      {/* Intro */}
-      <section className="mb-12 max-w-4xl mx-auto text-center">
-        <p className="text-lg leading-relaxed">
-          {isFr ? (
-            <>Bienvenue dans l’univers de <strong>Flore d’Esprit</strong>. Ce dossier vous offre un aperçu complet de l’artiste, son univers et sa musique.</>
-          ) : (
-            <>Welcome to the world of <strong>Flore d’Esprit</strong>. This press kit gives you a complete overview of the artist, their universe and music.</>
-          )}
+      {/* Bio Section */}
+      <section className="mb-16">
+        <h2 className="text-2xl md:text-3xl font-semibold mb-4">Biographie</h2>
+        <p className="max-w-2xl mx-auto text-left mb-3">
+          Flore d'Esprit est un projet musical mêlant groove électro, paillettes et liberté créative, invitant à lâcher prise sur des rythmes envoûtants.
+        </p>
+        <p className="max-w-2xl mx-auto text-left">
+          Flore d'Esprit is a musical project blending electro groove, glitter, and creative freedom, inviting listeners to let go and dance on hypnotic beats.
         </p>
       </section>
 
-      {/* Biographie */}
-      <section className="mb-16 max-w-4xl mx-auto">
-        <h2 className="text-2xl font-semibold mb-4 text-purple-600">
-          {isFr ? 'Biographie' : 'Biography'}
-        </h2>
-        <p className="text-base leading-relaxed mb-4">
-          {isFr
-            ? "Flore d’Esprit est un projet musical alliant groove, paillettes et liberté créative. Son univers mêle sons électro-funk déjantés, visuels éclatants et messages profonds."
-            : "Flore d’Esprit is a musical project combining groove, glitter and creative freedom. The universe blends wild electro-funk sounds, vibrant visuals and meaningful messages."}
-        </p>
-      </section>
-
-      {/* Médias téléchargeables */}
-      <section className="mb-16 max-w-4xl mx-auto">
-        <h2 className="text-2xl font-semibold mb-4 text-purple-600">
-          {isFr ? 'Médias à télécharger' : 'Downloadable Media'}
-        </h2>
-        <ul className="list-disc pl-5 space-y-2">
-          <li>
-            <Link href="/downloads/press-release.pdf" target="_blank" className="text-purple-700 underline">
-              {isFr ? 'Dossier de presse PDF' : 'Press release PDF'}
-            </Link>
-          </li>
-          <li>
-            <Link href="/downloads/biographie.pdf" target="_blank" className="text-purple-700 underline">
-              {isFr ? 'Biographie longue PDF' : 'Long biography PDF'}
-            </Link>
-          </li>
-          <li>
-            <Link href="/downloads/photos.zip" target="_blank" className="text-purple-700 underline">
-              {isFr ? 'Photos HD à télécharger' : 'Download HD Photos'}
-            </Link>
-          </li>
-          <li>
-            <Link href="/downloads/logo-flore.zip" target="_blank" className="text-purple-700 underline">
-              {isFr ? 'Logos et éléments graphiques' : 'Logos and graphic elements'}
-            </Link>
-          </li>
-        </ul>
-      </section>
-
-      {/* Liens musicaux */}
-      <section className="mb-16 max-w-4xl mx-auto">
-        <h2 className="text-2xl font-semibold mb-4 text-purple-600">
-          {isFr ? 'Écouter la musique' : 'Listen to the music'}
-        </h2>
-        <div className="flex gap-6 flex-wrap justify-center">
-          <Link href="https://open.spotify.com" target="_blank" className="text-purple-600 hover:underline">
-            Spotify →
-          </Link>
-          <Link href="https://deezer.com" target="_blank" className="text-purple-600 hover:underline">
-            Deezer →
-          </Link>
-          <Link href="https://app.suno.ai/profile/FloreDesprit" target="_blank" className="text-purple-600 hover:underline">
-            Suno →
-          </Link>
+      {/* Photos Section */}
+      <section className="mb-16">
+        <h2 className="text-2xl md:text-3xl font-semibold mb-4">Photos HD</h2>
+        <div className="flex flex-wrap gap-4 justify-center">
+          <Link href="/presskit/photos/portrait_hd.jpg" target="_blank" download className="text-purple-700 underline">Portrait HD</Link>
+          <Link href="/presskit/photos/live_hd.jpg" target="_blank" download className="text-purple-700 underline">Live HD</Link>
+          <Link href="/presskit/photos/studio_hd.jpg" target="_blank" download className="text-purple-700 underline">Studio HD</Link>
         </div>
       </section>
 
-      {/* Presse */}
-      <section className="max-w-4xl mx-auto">
-        <h2 className="text-2xl font-semibold mb-4 text-purple-600">
-          {isFr ? 'Presse & Citations' : 'Press & Quotes'}
-        </h2>
-        <ul className="space-y-3">
-          <li>
-            <em>
-              {isFr
-                ? '“Un univers hors-norme où le groove devient poésie cosmique.” — Le Mag Musical'
-                : '“An extraordinary world where groove becomes cosmic poetry.” — Le Mag Musical'}
-            </em>
-          </li>
-          <li>
-            <em>
-              {isFr
-                ? '“Flore d\'Esprit casse les codes avec génie.” — IndieWave'
-                : '“Flore d\'Esprit brilliantly breaks the codes.” — IndieWave'}
-            </em>
-          </li>
-        </ul>
+      {/* Logos Section */}
+      <section className="mb-16">
+        <h2 className="text-2xl md:text-3xl font-semibold mb-4">Logos & Visuels</h2>
+        <div className="flex flex-wrap gap-4 justify-center">
+          <Link href="/presskit/logos/logo_hd.png" target="_blank" download className="text-purple-700 underline">Logo PNG</Link>
+          <Link href="/presskit/logos/logo_vector.svg" target="_blank" download className="text-purple-700 underline">Logo Vectoriel</Link>
+        </div>
+      </section>
+
+      {/* Audio Section */}
+      <section className="mb-16">
+        <h2 className="text-2xl md:text-3xl font-semibold mb-4">Extraits musicaux</h2>
+        <iframe
+          src="https://open.spotify.com/embed/album/6lC789KhWfIQNHBIENhDmQ"
+          width="300"
+          height="380"
+          allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+          loading="lazy"
+          className="mx-auto rounded-xl shadow-lg"
+        ></iframe>
+      </section>
+
+      {/* Videos Section */}
+      <section className="mb-16">
+        <h2 className="text-2xl md:text-3xl font-semibold mb-4">Vidéos</h2>
+        <iframe
+          width="560"
+          height="315"
+          src="https://www.youtube.com/embed/Yg9JtvsR61k"
+          title="Bubblegum Mood"
+          frameBorder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowFullScreen
+          className="mx-auto rounded-xl shadow-lg"
+        ></iframe>
+      </section>
+
+      {/* Contact Section */}
+      <section className="mb-16">
+        <h2 className="text-2xl md:text-3xl font-semibold mb-4">Contact</h2>
+        <p>
+          Booking & Press: <a href="mailto:floredesprit@tonmail.com" className="text-purple-700 underline">floredesprit@tonmail.com</a>
+        </p>
+      </section>
+
+      {/* Download Press Kit PDF */}
+      <section>
+        <h2 className="text-2xl md:text-3xl font-semibold mb-4">Télécharger le Press Kit complet</h2>
+        <a
+          href="/presskit/floredesprit_presskit.pdf"
+          download
+          className="bg-purple-600 text-white px-6 py-3 rounded-lg shadow-lg hover:bg-purple-700 transition"
+        >
+          ⬇️ Télécharger le Press Kit PDF
+        </a>
       </section>
     </div>
   );
