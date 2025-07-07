@@ -19,6 +19,8 @@ export function NavBar() {
       about: "À propos",
       partners: "Partenaires",
       contact: "Contact",
+      events: "Événements",
+      store: "Boutique",
     },
     en: {
       home: "Home",
@@ -27,6 +29,8 @@ export function NavBar() {
       about: "About",
       partners: "Partners",
       contact: "Contact",
+      events: "Events",
+      store: "Store",
     },
   }[locale];
 
@@ -34,6 +38,7 @@ export function NavBar() {
     <nav className="bg-white shadow-md fixed w-full z-10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16 items-center">
+          
           {/* Logo */}
           <div className="flex-shrink-0 flex items-center">
             <Link href="/">
@@ -41,7 +46,7 @@ export function NavBar() {
             </Link>
           </div>
 
-          {/* Menu toggle (mobile) */}
+          {/* Mobile toggle */}
           <div className="flex items-center sm:hidden">
             <button
               onClick={() => setIsOpen(!isOpen)}
@@ -74,6 +79,12 @@ export function NavBar() {
             </Link>
             <Link href="/news">
               <span className="text-gray-700 hover:text-purple-600 px-3 py-2 rounded-md text-sm font-medium">{t.news}</span>
+            </Link>
+            <Link href="/events">
+              <span className="text-gray-700 hover:text-purple-600 px-3 py-2 rounded-md text-sm font-medium">{t.events}</span>
+            </Link>
+            <Link href="/store">
+              <span className="text-gray-700 hover:text-purple-600 px-3 py-2 rounded-md text-sm font-medium">{t.store}</span>
             </Link>
             <Link href="/presskit">
               <span className="text-gray-700 hover:text-purple-600 px-3 py-2 rounded-md text-sm font-medium">{t.presskit}</span>
@@ -110,7 +121,7 @@ export function NavBar() {
               </Link>
             </div>
 
-            {/* Sélecteur de langue */}
+            {/* Language Switcher */}
             <LanguageSwitcher />
           </div>
         </div>
@@ -125,6 +136,12 @@ export function NavBar() {
             </Link>
             <Link href="/news">
               <span className="block text-gray-700 hover:text-purple-600 px-3 py-2 rounded-md text-base font-medium">{t.news}</span>
+            </Link>
+            <Link href="/events">
+              <span className="block text-gray-700 hover:text-purple-600 px-3 py-2 rounded-md text-base font-medium">{t.events}</span>
+            </Link>
+            <Link href="/store">
+              <span className="block text-gray-700 hover:text-purple-600 px-3 py-2 rounded-md text-base font-medium">{t.store}</span>
             </Link>
             <Link href="/presskit">
               <span className="block text-gray-700 hover:text-purple-600 px-3 py-2 rounded-md text-base font-medium">{t.presskit}</span>
