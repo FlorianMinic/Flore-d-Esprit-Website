@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { FaYoutube, FaTwitter, FaTiktok, FaSpotify, FaDeezer } from 'react-icons/fa';
+import { FaYoutube, FaTwitter, FaTiktok, FaSpotify, FaDeezer, FaInstagram } from 'react-icons/fa';
 import { useLocale } from '@/hooks/useLocale';
 
 export function Footer() {
@@ -28,6 +28,9 @@ export function Footer() {
         </Link>
         <Link href="https://twitter.com" target="_blank" className="hover:text-blue-400 hover:scale-125 transition">
           <FaTwitter />
+        </Link>
+        <Link href="https://instagram.com" target="_blank" className="hover:text-pink-600 hover:scale-125 transition">
+          <FaInstagram />
         </Link>
         <Link href="https://tiktok.com" target="_blank" className="hover:text-pink-500 hover:scale-125 transition">
           <FaTiktok />

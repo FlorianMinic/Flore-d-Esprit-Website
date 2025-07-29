@@ -2,7 +2,12 @@
 
 import Link from 'next/link';
 import { useLocale } from '@/hooks/useLocale';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/css';
+import 'swiper/css/navigation';
+import { Navigation } from 'swiper/modules';
 
+// Complete press kit page with Spotify and YouTube embeds similar to HomePage
 export default function PressKitPage() {
   const { locale } = useLocale();
   const isFr = locale === 'fr';
@@ -33,6 +38,11 @@ export default function PressKitPage() {
           {isFr
             ? "Flore d’Esprit est un projet musical alliant groove, paillettes et liberté créative. Son univers mêle sons électro-funk déjantés, visuels éclatants et messages profonds."
             : "Flore d’Esprit is a musical project combining groove, glitter and creative freedom. The universe blends wild electro-funk sounds, vibrant visuals and meaningful messages."}
+        </p>
+        <p className="text-base leading-relaxed">
+          {isFr
+            ? "À travers ses compositions, Flore d’Esprit explore des thèmes comme la liberté d’expression, la puissance du collectif et l’imaginaire cosmique. Chaque morceau est une invitation à danser, à réfléchir et à rêver."
+            : "Through compositions, Flore d’Esprit explores themes such as freedom of expression, collective power and cosmic imagination. Each track is an invitation to dance, reflect and dream."}
         </p>
       </section>
 
@@ -65,45 +75,111 @@ export default function PressKitPage() {
         </ul>
       </section>
 
-      {/* Liens musicaux */}
+      {/* Musique */}
       <section className="mb-16 max-w-4xl mx-auto">
         <h2 className="text-2xl font-semibold mb-4 text-purple-600">
           {isFr ? 'Écouter la musique' : 'Listen to the music'}
         </h2>
-        <div className="flex gap-6 flex-wrap justify-center">
-          <Link href="https://open.spotify.com" target="_blank" className="text-purple-600 hover:underline">
-            Spotify →
-          </Link>
-          <Link href="https://deezer.com" target="_blank" className="text-purple-600 hover:underline">
-            Deezer →
-          </Link>
-          <Link href="https://app.suno.ai/profile/FloreDesprit" target="_blank" className="text-purple-600 hover:underline">
-            Suno →
-          </Link>
+        <p className="text-lg leading-relaxed mb-4 max-w-2xl mx-auto text-center">
+          {isFr
+            ? 'Plonge dans l’univers musical déjanté de Flore d’Esprit. Sons créés avec passion, inspirés par le groove, les paillettes et une pincée de folie cosmique.'
+            : 'Dive into the eccentric musical universe of Flore d’Esprit. Sounds created with passion, inspired by groove, glitter, and a touch of cosmic madness.'}
+        </p>
+        <div className="flex flex-col md:flex-row gap-8 justify-center items-center mb-8">
+          <iframe
+            src="https://open.spotify.com/embed/album/6lC789KhWfIQNHBIENhDmQ"
+            width="300"
+            height="380"
+            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+            loading="lazy"
+            className="rounded-xl shadow-lg"
+          ></iframe>
+
+          <a
+            href="https://suno.com/@flordesprit"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="w-[300px] h-[380px] rounded-xl bg-purple-200 flex items-center justify-center text-purple-900 font-bold text-xl shadow-lg hover:scale-105 transition"
+          >
+            {isFr ? 'Écouter sur Suno →' : 'Listen on Suno →'}
+          </a>
+        </div>
+        <div className="flex flex-col md:flex-row gap-8 justify-center items-center">
+          <iframe
+            src="https://open.spotify.com/embed/track/48dt9KbbgYN8JncxA0yKUV"
+            width="300"
+            height="80"
+            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+            loading="lazy"
+            className="rounded-xl shadow-lg"
+          ></iframe>
+          <iframe
+            src="https://open.spotify.com/embed/track/7bP7Gmpfe6hLpW02dXJVuL"
+            width="300"
+            height="80"
+            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+            loading="lazy"
+            className="rounded-xl shadow-lg"
+          ></iframe>
         </div>
       </section>
 
-      {/* Presse */}
+      {/* Vidéos */}
+      <section className="mb-16 max-w-4xl mx-auto">
+        <h2 className="text-2xl font-semibold mb-4 text-purple-600">
+          {isFr ? 'Vidéos' : 'Videos'}
+        </h2>
+        <p className="text-lg leading-relaxed mb-4 max-w-2xl mx-auto text-center">
+          {isFr
+            ? 'Découvre l’univers visuel de Flore d’Esprit à travers ces vidéos captivantes.'
+            : 'Discover Flore d’Esprit’s visual universe through these captivating videos.'}
+        </p>
+        <div className="w-full max-w-4xl mx-auto">
+          <Swiper modules={[Navigation]} navigation spaceBetween={30} slidesPerView={1} className="w-full">
+            <SwiperSlide>
+              <iframe
+                width="100%"
+                height="315"
+                src="https://www.youtube.com/embed/Yg9JtvsR61k"
+                title="Vidéo Bubblegum Mood"
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                className="rounded-xl shadow-lg"
+              ></iframe>
+            </SwiperSlide>
+            <SwiperSlide>
+              <iframe
+                width="100%"
+                height="315"
+                src="https://www.youtube.com/embed/-aX3vJ8RZFQ"
+                title="Vidéo Gravity Falls"
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                className="rounded-xl shadow-lg"
+              ></iframe>
+            </SwiperSlide>
+          </Swiper>
+        </div>
+      </section>
+
+
+      {/* Contact / Booking */}
       <section className="max-w-4xl mx-auto">
         <h2 className="text-2xl font-semibold mb-4 text-purple-600">
-          {isFr ? 'Presse & Citations' : 'Press & Quotes'}
+          {isFr ? 'Contact & Booking' : 'Contact & Booking'}
         </h2>
-        <ul className="space-y-3">
-          <li>
-            <em>
-              {isFr
-                ? '“Un univers hors-norme où le groove devient poésie cosmique.” — Le Mag Musical'
-                : '“An extraordinary world where groove becomes cosmic poetry.” — Le Mag Musical'}
-            </em>
-          </li>
-          <li>
-            <em>
-              {isFr
-                ? '“Flore d\'Esprit casse les codes avec génie.” — IndieWave'
-                : '“Flore d\'Esprit brilliantly breaks the codes.” — IndieWave'}
-            </em>
-          </li>
-        </ul>
+        <p className="leading-relaxed mb-2">
+          {isFr
+            ? "Pour toute demande d'interview, de booking ou d'information supplémentaire, veuillez contacter :"
+            : 'For interviews, bookings or additional information, please contact:'}
+        </p>
+        {/* Lien mailto qui ouvre la fenêtre d'envoi d'e‑mail */}
+        <a href="mailto:floredesprit1@gmail.com" className="mb-1 font-medium text-purple-600 hover:underline block">
+          floredesprit1@gmail.com
+        </a>
+        {/* … reste du contenu … */}
       </section>
     </div>
   );
