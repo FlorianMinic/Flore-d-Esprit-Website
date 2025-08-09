@@ -23,7 +23,7 @@ export function HeroSection() {
     <section
       className="relative w-full h-screen bg-cover bg-center flex items-center justify-center animate-zoom"
       style={{
-        backgroundImage: "url('/images/smiling-man.jpg')",
+        backgroundImage: "url('/images/FlorePortrait.png')",
       }}
     >
       <div className="absolute top-[20%] w-full text-center text-white px-4">
