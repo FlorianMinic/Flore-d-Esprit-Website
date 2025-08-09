@@ -1,32 +1,91 @@
 'use client';
 
+import Image from 'next/image';
+import Link from 'next/link';
+import { useMemo } from 'react';
 import { useLocale } from '@/hooks/useLocale';
 
 export default function NewsPage() {
   const { locale } = useLocale();
+  const isFr = locale === 'fr';
 
-  const t = {
-    fr: {
-      title: "Actualités",
-      subtitle: "Reste informé des dernières nouvelles de Flore d'Esprit",
-      comingSoon: "Les actualités arrivent bientôt, reste à l'écoute !",
+  const t = useMemo(
+    () => ({
+      title: isFr ? 'Actualités' : 'News',
+      subtitle: isFr
+        ? "Reste informé des dernières nouvelles de Flore d'Esprit"
+        : "Stay updated with the latest news from Flore d'Esprit",
+      comingSoon: isFr
+        ? "Les actualités arrivent bientôt, reste à l'écoute !"
+        : 'News is coming soon, stay tuned!',
+      latest: isFr ? 'Derniers articles' : 'Latest posts',
+      readMore: isFr ? 'Lire la suite' : 'Read more',
+    }),
+    [isFr]
+  );
+
+  // Placeholder — à remplacer par des données dynamiques (CMS ou API)
+  const posts = [
+    {
+      slug: 'nouvelle-chanson',
+      title: isFr ? 'Nouvelle chanson en préparation' : 'New song in the works',
+      date: '2025-08-01',
+      excerpt: isFr
+        ? "Un aperçu du prochain single de Flore d'Esprit sera bientôt disponible."
+        : 'A preview of Flore d\'Esprit\'s next single will be available soon.',
+      img: '/news/sample-1.jpg',
     },
-    en: {
-      title: "News",
-      subtitle: "Stay updated with the latest news from Flore d'Esprit",
-      comingSoon: "News is coming soon, stay tuned!",
+    {
+      slug: 'concert-annonce',
+      title: isFr ? 'Annonce de concert' : 'Concert announcement',
+      date: '2025-09-10',
+      excerpt: isFr
+        ? "Flore d'Esprit montera sur scène à Paris cet automne."
+        : 'Flore d\'Esprit will perform in Paris this fall.',
+      img: '/news/sample-2.jpg',
     },
-  }[locale];
+  ];
 
   return (
-    <main className="min-h-screen bg-white text-black px-6 py-20 md:px-20 flex flex-col items-center text-center">
-      <h1 className="text-4xl md:text-5xl font-bold text-purple-600 mb-4">{t.title}</h1>
-      <p className="max-w-xl text-lg md:text-xl text-gray-700 mb-10">{t.subtitle}</p>
-
-      {/* Zone d'actualités (placeholder pour l'instant) */}
-      <div className="bg-purple-100 rounded-lg p-8 shadow-md max-w-2xl">
-        <p className="text-lg text-gray-800">{t.comingSoon}</p>
+    <main className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 text-slate-100 px-6 py-20 md:px-20">
+      <div className="max-w-6xl mx-auto text-center mb-12">
+        <h1 className="text-4xl md:text-5xl font-extrabold text-cyan-400 mb-4">{t.title}</h1>
+        <p className="max-w-2xl mx-auto text-lg md:text-xl text-slate-300">{t.subtitle}</p>
       </div>
+
+      {posts.length === 0 ? (
+        <div className="bg-white/5 rounded-lg p-8 shadow-md max-w-2xl mx-auto text-center border border-white/10">
+          <p className="text-lg text-slate-300">{t.comingSoon}</p>
+        </div>
+      ) : (
+        <section>
+          <h2 className="text-2xl font-bold mb-6">{t.latest}</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {posts.map((p) => (
+              <article key={p.slug} className="rounded-2xl overflow-hidden border border-white/10 bg-white/5 backdrop-blur-md flex flex-col">
+                <div className="relative aspect-[4/3]">
+                  {p.img && (
+                    <Image src={p.img} alt={p.title} fill className="object-cover" />
+                  )}
+                </div>
+                <div className="p-5 flex flex-col flex-grow">
+                  <p className="text-xs text-slate-400 mb-2">{new Date(p.date).toLocaleDateString(locale)}</p>
+                  <h3 className="font-semibold text-lg mb-2">{p.title}</h3>
+                  <p className="text-slate-300 flex-grow">{p.excerpt}</p>
+                  <div className="mt-4">
+                    <Link
+                      href={`#/news/${p.slug}`}
+                      className="inline-flex items-center rounded-full bg-cyan-700 hover:bg-cyan-600 text-white px-4 py-2 text-xs font-medium"
+                    >
+                      {t.readMore}
+                    </Link>
+                  </div>
+                </div>
+              </article>
+            ))}
+          </div>
+        </section>
+      )}
     </main>
   );
 }

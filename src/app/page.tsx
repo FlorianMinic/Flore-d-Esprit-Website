@@ -10,9 +10,27 @@ import { useLocale } from '@/hooks/useLocale';
 
 export default function HomePage() {
   const { locale } = useLocale();
+  const isFr = locale === 'fr';
 
   const t = {
     fr: {
+      aiTitle: "À propos de l’utilisation de l’IA dans mon art",
+      aiP1:
+        "Flore d’Esprit est un artiste virtuel né d’une collaboration entre moi, être humain, et des outils d’intelligence artificielle.",
+      aiP2:
+        "L’IA n’est pas là pour remplacer la créativité humaine mais pour l’amplifier : elle m’aide à explorer, prototyper et pousser des idées plus loin.",
+      aiP3:
+        "Derrière chaque image, chanson ou texte : mes choix, ma direction artistique et mes émotions. L’IA est un partenaire, pas un substitut.",
+      aiP4:
+        "Mon intention n’est pas de supprimer des métiers, mais d’ouvrir de nouvelles voies, d’inventer d’autres formats et de collaborer avec des artistes humains.",
+      aiBulletsTitle: "Concrètement, l’IA m’aide à :",
+      aiBullets: [
+        "itérer plus vite (maquettes, concepts, variations) pour mieux décider",
+        "expérimenter des styles visuels/sonores inédits",
+        "rendre accessible une vision artistique avec peu de moyens",
+        "rester focalisé sur l’écriture, la direction et l’émotion"
+      ],
+
       universTitle: "L’univers de Flore d’Esprit",
       universText: `Flore d’Esprit, c’est une explosion de sons, de couleurs et d’émotions.
         Inspiré par les paillettes, les grooves psychédéliques et une liberté totale,
@@ -30,6 +48,23 @@ export default function HomePage() {
       videosText: "Découvre l'univers visuel de Flore d’Esprit à travers ces vidéos captivantes.",
     },
     en: {
+      aiTitle: "About AI in my work",
+      aiP1:
+        "Flore d’Esprit is a virtual artist born from a collaboration between me, a human creator, and AI tools.",
+      aiP2:
+        "AI doesn’t replace human creativity — it amplifies it. It helps me explore, prototype and push ideas further.",
+      aiP3:
+        "Behind every image, song or text are my choices, direction and emotions. AI is a partner, not a replacement.",
+      aiP4:
+        "My goal isn’t to remove jobs, but to open new paths, invent new formats and collaborate with human artists.",
+      aiBulletsTitle: "In practice, AI helps me to:",
+      aiBullets: [
+        "iterate faster (drafts, concepts, variations) to decide better",
+        "experiment with new visual/sonic styles",
+        "make an artistic vision possible with modest resources",
+        "stay focused on writing, direction and emotion"
+      ],
+
       universTitle: "The world of Flore d'Esprit",
       universText: `Flore d'Esprit is an explosion of sound, color, and emotion.
         Inspired by glitter, psychedelic grooves, and total freedom,
@@ -52,21 +87,68 @@ export default function HomePage() {
     <div className="scroll-smooth">
       <HeroSection />
 
+      {/* SECTION - AI Philosophy (volet plein écran + flèche vers #univers) */}
+      <section
+        id="ai"
+        className="min-h-screen bg-blue-50 dark:bg-slate-900/40 text-black dark:text-white px-6 md:px-20 flex flex-col items-center justify-center text-center relative"
+      >
+        <div className="max-w-5xl mx-auto">
+          <h2
+            className="text-3xl md:text-4xl font-bold mb-6"
+            style={{ color: '#003049' }}
+          >
+            {t.aiTitle}
+          </h2>
+
+          <div className="space-y-4 text-lg leading-relaxed text-gray-800 dark:text-gray-200">
+            <p>{t.aiP1}</p>
+            <p>{t.aiP2}</p>
+            <p>{t.aiP3}</p>
+            <p>{t.aiP4}</p>
+          </div>
+
+          <div className="mt-6 rounded-2xl border border-blue-200/70 dark:border-blue-400/30 bg-white/80 dark:bg-white/5 p-5 text-left md:text-left">
+            <p className="font-semibold mb-2" style={{ color: '#003049' }}>
+              {t.aiBulletsTitle}
+            </p>
+            <ul className="list-disc pl-6 space-y-1 text-gray-800 dark:text-gray-200">
+              {t.aiBullets.map((b, i) => (
+                <li key={i}>{b}</li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        {/* Flèche vers le volet suivant */}
+        <a
+          href="#univers"
+          className="absolute bottom-6 left-1/2 -translate-x-1/2 w-14 h-14 bg-blue-300 text-blue-900 rounded-full flex items-center justify-center text-2xl shadow-lg hover:scale-110 transition-all duration-300 animate-bounce"
+          aria-label="Scroll to universe"
+        >
+          <FaArrowDown />
+        </a>
+      </section>
+
       {/* SECTION - Univers */}
       <section
         id="univers"
         className="min-h-screen bg-white text-black px-6 md:px-20 flex items-center justify-center text-center relative"
       >
         <div>
-          <h2 className="text-3xl md:text-4xl font-bold mb-6">{t.universTitle}</h2>
-          <p className="max-w-3xl mx-auto text-lg leading-relaxed whitespace-pre-line">
+          <h2
+            className="text-3xl md:text-4xl font-bold mb-6"
+            style={{ color: '#003049' }}
+          >
+            {t.universTitle}
+          </h2>
+          <p className="max-w-3xl mx-auto text-lg leading-relaxed whitespace-pre-line text-gray-700">
             {t.universText}
           </p>
         </div>
 
         <a
           href="#musique"
-          className="absolute bottom-6 left-1/2 transform -translate-x-1/2 w-14 h-14 bg-purple-300 text-purple-900 rounded-full flex items-center justify-center text-2xl shadow-lg hover:scale-110 transition-all duration-300 animate-bounce"
+          className="absolute bottom-6 left-1/2 -translate-x-1/2 w-14 h-14 bg-blue-300 text-blue-900 rounded-full flex items-center justify-center text-2xl shadow-lg hover:scale-110 transition-all duration-300 animate-bounce"
           aria-label="Scroll to music"
         >
           <FaArrowDown />
@@ -76,21 +158,26 @@ export default function HomePage() {
       {/* SECTION - Musique */}
       <section
         id="musique"
-        className="min-h-screen bg-gradient-to-b from-pink-100 to-purple-200 text-black px-6 py-20 md:px-20 text-center flex flex-col items-center justify-center relative"
+        className="min-h-screen bg-gradient-to-b from-blue-50 to-cyan-100 text-black px-6 py-20 md:px-20 text-center flex flex-col items-center justify-center relative"
       >
-        <h2 className="text-3xl md:text-4xl font-bold mb-6">{t.musiqueTitle}</h2>
-        <p className="max-w-2xl mx-auto text-lg leading-relaxed mb-10 whitespace-pre-line">
+        <h2
+          className="text-3xl md:text-4xl font-bold mb-6"
+          style={{ color: '#003049' }}
+        >
+          {t.musiqueTitle}
+        </h2>
+        <p className="max-w-2xl mx-auto text-lg leading-relaxed mb-10 whitespace-pre-line text-gray-700">
           {t.musiqueText}
         </p>
 
-        <audio controls className="mb-8 w-full max-w-md shadow-lg rounded-lg">
+        <audio controls className="mb-8 w-full max-w-md shadow-lg rounded-lg bg-white/70">
           <source src="/audio/extrait.mp3" type="audio/mpeg" />
-          {locale === 'fr' ? "Ton navigateur ne supporte pas la lecture audio." : "Your browser does not support audio playback."}
+          {isFr ? "Ton navigateur ne supporte pas la lecture audio." : "Your browser does not support audio playback."}
         </audio>
 
         <a
           href="#playlist"
-          className="absolute bottom-6 left-1/2 transform -translate-x-1/2 w-14 h-14 bg-purple-300 text-purple-900 rounded-full flex items-center justify-center text-2xl shadow-lg hover:scale-110 transition-all duration-300 animate-bounce"
+          className="absolute bottom-6 left-1/2 -translate-x-1/2 w-14 h-14 bg-blue-300 text-blue-900 rounded-full flex items-center justify-center text-2xl shadow-lg hover:scale-110 transition-all duration-300 animate-bounce"
           aria-label="Scroll to playlist"
         >
           <FaArrowDown />
@@ -102,8 +189,15 @@ export default function HomePage() {
         id="playlist"
         className="min-h-screen bg-white text-black px-6 py-20 md:px-20 text-center flex flex-col items-center justify-center relative"
       >
-        <h2 className="text-3xl md:text-4xl font-bold mb-6">{t.playlistTitle}</h2>
-        <p className="max-w-2xl mx-auto text-lg leading-relaxed mb-10">{t.playlistText}</p>
+        <h2
+          className="text-3xl md:text-4xl font-bold mb-6"
+          style={{ color: '#003049' }}
+        >
+          {t.playlistTitle}
+        </h2>
+        <p className="max-w-2xl mx-auto text-lg leading-relaxed mb-10 text-gray-700">
+          {t.playlistText}
+        </p>
 
         <div className="flex flex-col md:flex-row gap-8 justify-center items-center">
           <iframe
@@ -112,14 +206,14 @@ export default function HomePage() {
             height="380"
             allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
             loading="lazy"
-            className="rounded-xl shadow-lg"
+            className="rounded-xl shadow-lg bg-white"
           ></iframe>
 
           <a
             href="https://suno.com/@flordesprit"
             target="_blank"
             rel="noopener noreferrer"
-            className="w-[300px] h-[380px] rounded-xl bg-purple-200 flex items-center justify-center text-purple-900 font-bold text-xl shadow-lg hover:scale-105 transition"
+            className="w-[300px] h-[380px] rounded-xl bg-blue-200 flex items-center justify-center text-blue-900 font-bold text-xl shadow-lg hover:scale-105 transition"
           >
             {t.sunoText}
           </a>
@@ -127,7 +221,7 @@ export default function HomePage() {
 
         <a
           href="#videos"
-          className="absolute bottom-6 left-1/2 transform -translate-x-1/2 w-14 h-14 bg-purple-300 text-purple-900 rounded-full flex items-center justify-center text-2xl shadow-lg hover:scale-110 transition-all duration-300 animate-bounce mt-16"
+          className="absolute bottom-6 left-1/2 -translate-x-1/2 w-14 h-14 bg-blue-300 text-blue-900 rounded-full flex items-center justify-center text-2xl shadow-lg hover:scale-110 transition-all duration-300 animate-bounce mt-16"
           aria-label="Scroll to videos"
         >
           <FaArrowDown />
@@ -137,19 +231,20 @@ export default function HomePage() {
       {/* SECTION - Vidéos */}
       <section
         id="videos"
-        className="min-h-screen bg-purple-100 text-black px-6 py-20 md:px-20 text-center flex flex-col items-center justify-center relative"
+        className="min-h-screen bg-blue-100 text-black px-6 py-20 md:px-20 text-center flex flex-col items-center justify-center relative"
       >
-        <h2 className="text-3xl md:text-4xl font-bold mb-6">{t.videosTitle}</h2>
-        <p className="max-w-2xl mx-auto text-lg leading-relaxed mb-10">{t.videosText}</p>
+        <h2
+          className="text-3xl md:text-4xl font-bold mb-6"
+          style={{ color: '#003049' }}
+        >
+          {t.videosTitle}
+        </h2>
+        <p className="max-w-2xl mx-auto text-lg leading-relaxed mb-10 text-gray-700">
+          {t.videosText}
+        </p>
 
         <div className="w-full max-w-4xl">
-          <Swiper
-            modules={[Navigation]}
-            navigation
-            spaceBetween={30}
-            slidesPerView={1}
-            className="w-full"
-          >
+          <Swiper modules={[Navigation]} navigation spaceBetween={30} slidesPerView={1} className="w-full">
             <SwiperSlide>
               <iframe
                 width="100%"
@@ -159,7 +254,7 @@ export default function HomePage() {
                 frameBorder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
-                className="rounded-xl shadow-lg"
+                className="rounded-xl shadow-lg bg-white"
               ></iframe>
             </SwiperSlide>
 
@@ -172,7 +267,7 @@ export default function HomePage() {
                 frameBorder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
-                className="rounded-xl shadow-lg"
+                className="rounded-xl shadow-lg bg-white"
               ></iframe>
             </SwiperSlide>
           </Swiper>

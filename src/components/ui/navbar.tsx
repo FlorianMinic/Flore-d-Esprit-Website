@@ -1,7 +1,8 @@
 'use client';
 
 import Link from 'next/link';
-import { useRef, useState, useEffect } from 'react';
+import { useRef, useState, useEffect, useMemo } from 'react';
+import { usePathname } from 'next/navigation';
 import { FaYoutube, FaTwitter, FaInstagram, FaTiktok, FaSpotify, FaDeezer } from 'react-icons/fa';
 import { HiOutlineMusicalNote } from 'react-icons/hi2';
 import { LanguageSwitcher } from '@/components/ui/languageSwitcher';
@@ -11,16 +12,10 @@ import { Audiowide } from 'next/font/google';
 const audiowide = Audiowide({ subsets: ['latin'], weight: '400' });
 
 /* -------- Mini lecteur audio compact -------- */
-function MiniAudioPlayer({
-  src = '/audio/extrait.mp3',
-  title,
-}: {
-  src?: string;
-  title?: string;
-}) {
+function MiniAudioPlayer({ src = '/audio/extrait.mp3', title }: { src?: string; title?: string }) {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const [playing, setPlaying] = useState(false);
-  const [progress, setProgress] = useState(0); // 0..1
+  const [progress, setProgress] = useState(0);
 
   const toggle = () => {
     const el = audioRef.current;
@@ -34,7 +29,6 @@ function MiniAudioPlayer({
     const onPlay = () => setPlaying(true);
     const onPause = () => setPlaying(false);
     const onTime = () => el.duration && setProgress(el.currentTime / el.duration);
-
     el.addEventListener('play', onPlay);
     el.addEventListener('pause', onPause);
     el.addEventListener('timeupdate', onTime);
@@ -48,7 +42,7 @@ function MiniAudioPlayer({
   }, []);
 
   return (
-    <div className="hidden sm:flex items-center gap-3">
+    <div className="hidden md:flex items-center gap-3">
       <button
         onClick={toggle}
         className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-purple-600 text-white hover:bg-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-400 transition"
@@ -57,16 +51,9 @@ function MiniAudioPlayer({
         {playing ? '❚❚' : '▶'}
       </button>
       <div className="w-28 select-none">
-        {title && (
-          <div className="text-[11px] text-gray-500 dark:text-gray-400 leading-none mb-1 truncate">
-            {title}
-          </div>
-        )}
-        <div className="h-1.5 w-full bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
-          <div
-            className="h-full bg-purple-500 transition-[width]"
-            style={{ width: `${Math.max(0, Math.min(1, progress)) * 100}%` }}
-          />
+        {title && <div className="text-[11px] text-gray-400 leading-none mb-1 truncate">{title}</div>}
+        <div className="h-1.5 w-full bg-gray-700 rounded-full overflow-hidden">
+          <div className="h-full bg-purple-400 transition-[width]" style={{ width: `${Math.max(0, Math.min(1, progress)) * 100}%` }} />
         </div>
       </div>
       <audio ref={audioRef} src={src} preload="none" />
@@ -78,6 +65,13 @@ function MiniAudioPlayer({
 export function NavBar() {
   const [isOpen, setIsOpen] = useState(false);
   const { locale } = useLocale();
+  const pathname = usePathname() || '/';
+
+  // Normalise le pathname: retire /fr ou /en au début si présent
+  const normalizedPath = useMemo(
+    () => pathname.replace(/^\/(fr|en)(?=\/|$)/, '') || '/',
+    [pathname]
+  );
 
   const t = {
     fr: {
@@ -87,6 +81,8 @@ export function NavBar() {
       about: 'À propos',
       partners: 'Partenaires',
       contact: 'Contact',
+      creationsAI: 'Créations IA',
+      merch: 'Merch',
       nowPlaying: "Écoute : Extrait",
     },
     en: {
@@ -96,64 +92,91 @@ export function NavBar() {
       about: 'About',
       partners: 'Partners',
       contact: 'Contact',
+      creationsAI: 'AI Creations',
+      merch: 'Merch',
       nowPlaying: 'Now playing: Preview',
     },
   }[locale];
 
+  const links = [
+    { label: t.home, href: '/' },
+    { label: t.news, href: '/news' },
+    { label: t.presskit, href: '/presskit' },
+    { label: t.about, href: '/about' },
+    { label: t.partners, href: '/partners' },
+    { label: t.contact, href: '/contact' },
+    { label: t.creationsAI, href: '/creation-ai' },
+    { label: t.merch, href: '/merch' },
+  ];
+
+  // Ferme le menu mobile quand on change de route
+  useEffect(() => {
+    if (isOpen) setIsOpen(false);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [normalizedPath]);
+
+  const pillBase = 'px-3 py-1 rounded-full text-[13px] lg:text-sm font-medium transition-colors';
+  const pillIdle = 'text-gray-300 hover:text-white hover:bg-white/10';
+  const pillActive = 'text-white bg-white/15 ring-1 ring-white/20';
+
   return (
-    <nav className="bg-white/85 dark:bg-black/70 backdrop-blur-md shadow-md fixed w-full z-10">
-      <div className="mx-auto max-w-7xl px-3 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
-          {/* GAUCHE : Lecteur audio + Logo */}
+    <nav className="fixed inset-x-0 top-0 z-20 border-b border-white/10 bg-gradient-to-b from-black/80 to-black/60 backdrop-blur-md">
+      <div className="mx-auto max-w-7xl px-4 lg:px-8">
+        {/* Desktop */}
+        <div className="hidden md:grid grid-cols-[auto_1fr_auto] items-center h-14 gap-6">
+          {/* Gauche */}
           <div className="flex items-center gap-4">
             <MiniAudioPlayer src="/audio/extrait.mp3" title={t.nowPlaying} />
             <Link href="/" className="flex-shrink-0">
-              <span
-                className={`${audiowide.className} text-[18px] sm:text-xl tracking-wide text-purple-700 dark:text-purple-300`}
-              >
+              <span className={`${audiowide.className} text-[18px] lg:text-xl tracking-wide text-purple-300`}>
                 Flore d&apos;Esprit
               </span>
             </Link>
           </div>
 
-          {/* MENU Desktop */}
-          <div className="hidden sm:flex items-center gap-2 md:gap-4">
-            {[
-              { label: t.home, href: '/' },
-              { label: t.news, href: '/news' },
-              { label: t.presskit, href: '/presskit' },
-              { label: t.about, href: '/about' },
-              { label: t.partners, href: '/partners' },
-              { label: t.contact, href: '/contact' },
-            ].map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className="relative px-2 py-1 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white group"
-              >
-                {item.label}
-                <span className="pointer-events-none absolute left-1/2 -bottom-0.5 h-0.5 w-0 -translate-x-1/2 bg-purple-500 transition-all duration-300 group-hover:w-full rounded"></span>
-              </Link>
-            ))}
+          {/* Centre */}
+          <ul className="flex flex-wrap items-center justify-center gap-2 sm:gap-3">
+            {links.map(({ label, href }) => {
+              const active = normalizedPath === href;
+              return (
+                <li key={href}>
+                  <Link
+                    href={href}
+                    className={`${pillBase} ${active ? pillActive : pillIdle}`}
+                    aria-current={active ? 'page' : undefined}
+                  >
+                    {label}
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
 
-            {/* Réseaux sociaux */}
-            <div className="flex items-center gap-3 pl-2 md:pl-4">
-              <Link href="https://youtube.com" target="_blank" aria-label="YouTube" className="social-link"><FaYoutube /></Link>
-              <Link href="https://twitter.com" target="_blank" aria-label="Twitter/X" className="social-link"><FaTwitter /></Link>
-              <Link href="https://instagram.com" target="_blank" aria-label="Instagram" className="social-link"><FaInstagram /></Link>
-              <Link href="https://tiktok.com" target="_blank" aria-label="TikTok" className="social-link"><FaTiktok /></Link>
-              <Link href="https://spotify.com" target="_blank" aria-label="Spotify" className="social-link"><FaSpotify /></Link>
-              <Link href="https://deezer.com" target="_blank" aria-label="Deezer" className="social-link"><FaDeezer /></Link>
-              <Link href="https://app.suno.ai/profile/FloreDesprit" target="_blank" aria-label="Suno" className="social-link"><HiOutlineMusicalNote /></Link>
+          {/* Droite */}
+          <div className="flex items-center justify-end gap-3">
+            <Link href="https://youtube.com" target="_blank" aria-label="YouTube" className="social-link"><FaYoutube size={16} /></Link>
+            <Link href="https://twitter.com" target="_blank" aria-label="Twitter/X" className="social-link"><FaTwitter size={16} /></Link>
+            <Link href="https://instagram.com" target="_blank" aria-label="Instagram" className="social-link"><FaInstagram size={16} /></Link>
+            <Link href="https://tiktok.com" target="_blank" aria-label="TikTok" className="social-link"><FaTiktok size={16} /></Link>
+            <Link href="https://spotify.com" target="_blank" aria-label="Spotify" className="social-link"><FaSpotify size={16} /></Link>
+            <Link href="https://deezer.com" target="_blank" aria-label="Deezer" className="social-link"><FaDeezer size={16} /></Link>
+            <Link href="https://app.suno.ai/profile/FloreDesprit" target="_blank" aria-label="Suno" className="social-link"><HiOutlineMusicalNote size={16} /></Link>
+            <div className="pl-2">
+              <LanguageSwitcher />
             </div>
-
-            <LanguageSwitcher />
           </div>
+        </div>
 
-          {/* BOUTON Mobile */}
+        {/* Mobile */}
+        <div className="md:hidden flex items-center justify-between h-14">
+          <Link href="/" className="flex-shrink-0">
+            <span className={`${audiowide.className} text-[17px] tracking-wide text-purple-300`}>
+              Flore d&apos;Esprit
+            </span>
+          </Link>
           <button
-            onClick={() => setIsOpen((v) => !v)}
-            className="sm:hidden inline-flex items-center justify-center rounded-md p-2 text-purple-700 dark:text-purple-300 hover:bg-purple-600 hover:text-white focus:outline-none focus:ring-2 focus:ring-purple-400"
+            onClick={() => setIsOpen(v => !v)}
+            className="inline-flex items-center justify-center rounded-md p-2 text-purple-300 hover:bg.white/10 focus:outline-none focus:ring-2 focus:ring-purple-400"
             aria-controls="mobile-menu"
             aria-expanded={isOpen}
           >
@@ -168,25 +191,26 @@ export function NavBar() {
         </div>
       </div>
 
-      {/* MENU Mobile */}
+      {/* Menu mobile */}
       {isOpen && (
-        <div className="sm:hidden bg-white/95 dark:bg-black/90 backdrop-blur-md" id="mobile-menu">
+        <div className="md:hidden bg.black/85 backdrop-blur-md border-t border-white/10" id="mobile-menu">
           <div className="px-4 pt-3 pb-4 space-y-2">
             <MiniAudioPlayer src="/audio/extrait.mp3" title={t.nowPlaying} />
-            {[
-              { label: t.home, href: '/' },
-              { label: t.news, href: '/news' },
-              { label: t.presskit, href: '/presskit' },
-              { label: t.about, href: '/about' },
-              { label: t.partners, href: '/partners' },
-              { label: t.contact, href: '/contact' },
-            ].map((item) => (
-              <Link key={item.href} href={item.href} onClick={() => setIsOpen(false)}>
-                <span className="block text-gray-700 dark:text-gray-300 hover:text-purple-700 dark:hover:text-purple-300 px-3 py-2 rounded-md text-base font-medium">
-                  {item.label}
-                </span>
-              </Link>
-            ))}
+            {links.map(({ label, href }) => {
+              const active = normalizedPath === href;
+              return (
+                <Link key={href} href={href} onClick={() => setIsOpen(false)}>
+                  <span
+                    className={`block px-3 py-2 rounded-md text-base font-medium ${
+                      active ? 'text-white bg-white/10' : 'text-gray-200 hover:text-white hover:bg-white/5'
+                    }`}
+                    aria-current={active ? 'page' : undefined}
+                  >
+                    {label}
+                  </span>
+                </Link>
+              );
+            })}
             <div className="flex items-center gap-3 pt-2">
               <LanguageSwitcher />
             </div>
@@ -194,14 +218,11 @@ export function NavBar() {
         </div>
       )}
 
-      {/* Styles utilitaires pour les icônes */}
+      {/* Style icônes réseaux */}
       <style jsx global>{`
-        .social-link {
-          display: inline-flex; align-items: center; justify-content: center;
-          color: rgb(147 51 234); /* purple-600 */
-        }
-        .dark .social-link { color: rgb(216 180 254); } /* purple-300 */
-        .social-link:hover { transform: scale(1.1); transition: transform 150ms; }
+        .social-link { display:inline-flex; align-items:center; justify-content:center; color: rgb(216 180 254); }
+        .social-link:hover { transform: translateY(-1px); filter: drop-shadow(0 0 6px rgba(168,85,247,.35)); transition: all 150ms; }
+        .dark .social-link { color: rgb(216 180 254); }
       `}</style>
     </nav>
   );
