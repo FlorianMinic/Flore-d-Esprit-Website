@@ -67,7 +67,6 @@ export function NavBar() {
   const { locale } = useLocale();
   const pathname = usePathname() || '/';
 
-  // Normalise le pathname: retire /fr ou /en au début si présent
   const normalizedPath = useMemo(
     () => pathname.replace(/^\/(fr|en)(?=\/|$)/, '') || '/',
     [pathname]
@@ -109,11 +108,9 @@ export function NavBar() {
     { label: t.merch, href: '/merch' },
   ];
 
-  // Ferme le menu mobile quand on change de route
   useEffect(() => {
     if (isOpen) setIsOpen(false);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [normalizedPath]);
+  }, [normalizedPath, isOpen]);
 
   const pillBase = 'px-3 py-1 rounded-full text-[13px] lg:text-sm font-medium transition-colors';
   const pillIdle = 'text-gray-300 hover:text-white hover:bg-white/10';
@@ -121,21 +118,21 @@ export function NavBar() {
 
   return (
     <nav className="fixed inset-x-0 top-0 z-20 border-b border-white/10 bg-gradient-to-b from-black/80 to-black/60 backdrop-blur-md">
-      <div className="mx-auto max-w-7xl px-4 lg:px-8">
-        {/* Desktop */}
-        <div className="hidden md:grid grid-cols-[auto_1fr_auto] items-center h-14 gap-6">
-          {/* Gauche */}
-          <div className="flex items-center gap-4">
-            <MiniAudioPlayer src="/audio/extrait.mp3" title={t.nowPlaying} />
-            <Link href="/" className="flex-shrink-0">
-              <span className={`${audiowide.className} text-[18px] lg:text-xl tracking-wide text-purple-300`}>
-                Flore d&apos;Esprit
-              </span>
-            </Link>
-          </div>
+      {/* --- Barre desktop : bord gauche = lecteur+logo, lien au centre, bord droit = réseaux+lang --- */}
+      <div className="relative hidden md:block h-14">
+        {/* Gauche collé au bord écran */}
+        <div className="absolute inset-y-0 left-0 pl-4 lg:pl-6 flex items-center gap-4">
+          <MiniAudioPlayer src="/audio/extrait.mp3" title={t.nowPlaying} />
+          <Link href="/" className="flex-shrink-0">
+            <span className={`${audiowide.className} text-[18px] lg:text-xl tracking-wide text-purple-300`}>
+              Flore d&apos;Esprit
+            </span>
+          </Link>
+        </div>
 
-          {/* Centre */}
-          <ul className="flex flex-wrap items-center justify-center gap-2 sm:gap-3">
+        {/* Centre parfaitement centré */}
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+          <ul className="pointer-events-auto flex flex-wrap items-center justify-center gap-2 sm:gap-3">
             {links.map(({ label, href }) => {
               const active = normalizedPath === href;
               return (
@@ -151,49 +148,49 @@ export function NavBar() {
               );
             })}
           </ul>
+        </div>
 
-          {/* Droite */}
-          <div className="flex items-center justify-end gap-3">
-            <Link href="https://youtube.com" target="_blank" aria-label="YouTube" className="social-link"><FaYoutube size={16} /></Link>
-            <Link href="https://twitter.com" target="_blank" aria-label="Twitter/X" className="social-link"><FaTwitter size={16} /></Link>
-            <Link href="https://instagram.com" target="_blank" aria-label="Instagram" className="social-link"><FaInstagram size={16} /></Link>
-            <Link href="https://tiktok.com" target="_blank" aria-label="TikTok" className="social-link"><FaTiktok size={16} /></Link>
-            <Link href="https://spotify.com" target="_blank" aria-label="Spotify" className="social-link"><FaSpotify size={16} /></Link>
-            <Link href="https://deezer.com" target="_blank" aria-label="Deezer" className="social-link"><FaDeezer size={16} /></Link>
-            <Link href="https://app.suno.ai/profile/FloreDesprit" target="_blank" aria-label="Suno" className="social-link"><HiOutlineMusicalNote size={16} /></Link>
-            <div className="pl-2">
-              <LanguageSwitcher />
-            </div>
+        {/* Droite collé au bord écran */}
+        <div className="absolute inset-y-0 right-0 pr-4 lg:pr-6 flex items-center justify-end gap-3">
+          <Link href="https://youtube.com" target="_blank" aria-label="YouTube" className="social-link"><FaYoutube size={16} /></Link>
+          <Link href="https://twitter.com" target="_blank" aria-label="Twitter/X" className="social-link"><FaTwitter size={16} /></Link>
+          <Link href="https://instagram.com" target="_blank" aria-label="Instagram" className="social-link"><FaInstagram size={16} /></Link>
+          <Link href="https://tiktok.com" target="_blank" aria-label="TikTok" className="social-link"><FaTiktok size={16} /></Link>
+          <Link href="https://spotify.com" target="_blank" aria-label="Spotify" className="social-link"><FaSpotify size={16} /></Link>
+          <Link href="https://deezer.com" target="_blank" aria-label="Deezer" className="social-link"><FaDeezer size={16} /></Link>
+          <Link href="https://app.suno.ai/profile/FloreDesprit" target="_blank" aria-label="Suno" className="social-link"><HiOutlineMusicalNote size={16} /></Link>
+          <div className="pl-2">
+            <LanguageSwitcher />
           </div>
         </div>
+      </div>
 
-        {/* Mobile */}
-        <div className="md:hidden flex items-center justify-between h-14">
-          <Link href="/" className="flex-shrink-0">
-            <span className={`${audiowide.className} text-[17px] tracking-wide text-purple-300`}>
-              Flore d&apos;Esprit
-            </span>
-          </Link>
-          <button
-            onClick={() => setIsOpen(v => !v)}
-            className="inline-flex items-center justify-center rounded-md p-2 text-purple-300 hover:bg.white/10 focus:outline-none focus:ring-2 focus:ring-purple-400"
-            aria-controls="mobile-menu"
-            aria-expanded={isOpen}
-          >
-            <svg className="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-              {isOpen ? (
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              ) : (
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-              )}
-            </svg>
-          </button>
-        </div>
+      {/* Mobile */}
+      <div className="md:hidden flex items-center justify-between h-14 px-4">
+        <Link href="/" className="flex-shrink-0">
+          <span className={`${audiowide.className} text-[17px] tracking-wide text-purple-300`}>
+            Flore d&apos;Esprit
+          </span>
+        </Link>
+        <button
+          onClick={() => setIsOpen(v => !v)}
+          className="inline-flex items-center justify-center rounded-md p-2 text-purple-300 hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-purple-400"
+          aria-controls="mobile-menu"
+          aria-expanded={isOpen}
+        >
+          <svg className="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            {isOpen ? (
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            ) : (
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+            )}
+          </svg>
+        </button>
       </div>
 
       {/* Menu mobile */}
       {isOpen && (
-        <div className="md:hidden bg.black/85 backdrop-blur-md border-t border-white/10" id="mobile-menu">
+        <div className="md:hidden bg-black/85 backdrop-blur-md border-t border-white/10" id="mobile-menu">
           <div className="px-4 pt-3 pb-4 space-y-2">
             <MiniAudioPlayer src="/audio/extrait.mp3" title={t.nowPlaying} />
             {links.map(({ label, href }) => {
