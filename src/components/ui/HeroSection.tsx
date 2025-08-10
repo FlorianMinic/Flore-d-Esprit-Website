@@ -4,9 +4,7 @@ import { FaArrowDown } from "react-icons/fa";
 import { useLocale } from '@/hooks/useLocale';
 
 type HeroSectionProps = {
-  /** ID de la section suivante (ex: "ai", "univers", etc.) */
   nextSectionId?: string;
-  /** Image de fond optionnelle */
   backgroundUrl?: string;
 };
 
@@ -43,13 +41,33 @@ export function HeroSection({
         </p>
       </div>
 
-      {/* Flèche vers le volet suivant */}
+      {/* Flèche harmonisée avec la home */}
       <a
         href={`#${nextSectionId}`}
-        className="absolute bottom-6 left-1/2 -translate-x-1/2 w-14 h-14 bg-blue-300 text-blue-900 rounded-full flex items-center justify-center text-2xl shadow-lg hover:scale-110 transition-all duration-300 animate-bounce"
         aria-label="Scroll to next section"
+        className={[
+          // verre + border comme sur la home
+          "group inline-flex items-center justify-center leading-none",
+          "w-12 h-12 md:w-12 md:h-12 lg:w-14 lg:h-14 rounded-full",
+          "text-slate-100 border border-white/10 bg-white/10 backdrop-blur-md",
+          "shadow-[0_0_0_1px_rgba(255,255,255,0.03)]",
+          // focus ring comme sur la home
+          "focus-visible:outline-none focus-visible:ring-2",
+          "focus-visible:ring-cyan-400/70 focus-visible:ring-offset-2",
+          "focus-visible:ring-offset-slate-950",
+          // animations identiques à la home
+          "transition-transform duration-300 hover:scale-110 hover:bg-white/20",
+          "motion-safe:animate-[bounce_2s_ease-in-out_infinite]",
+          "hover:animate-bounce-cartoon",
+          // position
+          "absolute bottom-6 left-1/2 -translate-x-1/2"
+        ].join(" ")}
       >
-        <FaArrowDown />
+        <FaArrowDown
+          size={22}
+          className="shrink-0 leading-none transition-transform duration-300 ease-out group-hover:scale-110"
+          aria-hidden="true"
+        />
       </a>
     </section>
   );

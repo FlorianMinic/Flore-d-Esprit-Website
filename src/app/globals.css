@@ -3,22 +3,16 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+
+  /* Fonts injectées par next/font (si utilisées) */
+  --font-geist-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+                     Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji",
+                     "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-geist-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+                     "Liberation Mono", "Courier New", monospace;
 }
 
-/*
-  Define custom CSS variables that Tailwind can pick up for fonts and colors.
-  You can set --font-geist-sans and --font-geist-mono in your Next.js setup
-  (e.g. via @next/font imports) so that Tailwind's font-sans and font-mono
-  classes use these values.
-*/
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-/* Dark mode overrides for background and foreground colors */
+/* Mode sombre */
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
@@ -26,30 +20,50 @@
   }
 }
 
-/* Apply global colors and font family */
+/* Styles globaux */
+html { scroll-behavior: smooth; }
+
 body {
   background: var(--background);
   color: var(--foreground);
-  /* Use the custom sans-serif font defined in --font-sans with a fallback */
-  font-family: var(--font-sans), sans-serif;
+  /* Force la police globale sans passer par @theme */
+  font-family: var(--font-geist-sans), sans-serif;
 }
 
-/* Simple zoom animation for backgrounds */
+/* ===== Animations ===== */
+
+/* Zoom de fond (boucle lente) */
 @keyframes zoom {
-  0% {
-    background-size: 100%;
-  }
-  100% {
-    background-size: 110%;
+  0%   { background-size: 100%; }
+  100% { background-size: 110%; }
+}
+
+/* N’appliquer les animations que si l’utilisateur n’a pas demandé de réduction */
+@media (prefers-reduced-motion: no-preference) {
+  .animate-zoom {
+    animation: zoom 20s ease-in-out infinite alternate;
   }
 }
 
-/* Utility class that applies the zoom animation */
-.animate-zoom {
-  animation: zoom 20s ease-in-out infinite alternate;
+/* Rebond cartoon (pour les boutons/flèches) */
+@keyframes bounce-cartoon {
+  0%, 100% { transform: translateY(0) scale(1); }
+  30%      { transform: translateY(-10px) scale(1.03); }
+  60%      { transform: translateY(4px)  scale(0.98); }
 }
 
-/* Smooth scrolling behavior for anchor links */
-html {
-  scroll-behavior: smooth;
+/* Utilitaire compatible Tailwind pour le :hover */
+@media (prefers-reduced-motion: no-preference) {
+  .hover\:animate-bounce-cartoon:hover {
+    animation: bounce-cartoon 0.6s ease-out;
+  }
+}
+
+/* Optionnel : neutraliser animations si réduction activée */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
 }
