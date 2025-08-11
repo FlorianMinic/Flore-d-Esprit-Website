@@ -24,26 +24,25 @@ export default function NewsPage() {
     [isFr]
   );
 
-  // Placeholder — à remplacer par des données dynamiques (CMS ou API)
   const posts = [
     {
-      slug: 'nouvelle-chanson',
+      slug: 'bienvenue',
+      title: isFr ? 'Bienvenue sur mon site' : 'Welcome to my website',
+      date: '2025-08-10',
+      excerpt: isFr
+        ? "Je suis ravi de vous accueillir ici ! Découvrez mon univers et restez connectés pour suivre toutes mes aventures."
+        : "I'm happy to welcome you here! Discover my world and stay tuned for all my upcoming adventures.",
+      img: '/news/sample-3.jpg',
+    },
+    {
+      slug: 'newsong', // ✅ maintenant ça correspond à ton dossier
       title: isFr ? 'Nouvelle chanson en préparation' : 'New song in the works',
       date: '2025-08-01',
       excerpt: isFr
         ? "Un aperçu du prochain single de Flore d'Esprit sera bientôt disponible."
-        : 'A preview of Flore d\'Esprit\'s next single will be available soon.',
+        : "A preview of Flore d'Esprit's next single will be available soon.",
       img: '/news/sample-1.jpg',
-    },
-    {
-      slug: 'concert-annonce',
-      title: isFr ? 'Annonce de concert' : 'Concert announcement',
-      date: '2025-09-10',
-      excerpt: isFr
-        ? "Flore d'Esprit montera sur scène à Paris cet automne."
-        : 'Flore d\'Esprit will perform in Paris this fall.',
-      img: '/news/sample-2.jpg',
-    },
+    }
   ];
 
   return (
@@ -74,7 +73,7 @@ export default function NewsPage() {
                   <p className="text-slate-300 flex-grow">{p.excerpt}</p>
                   <div className="mt-4">
                     <Link
-                      href={`#/news/${p.slug}`}
+                      href={`/news/${p.slug}`} // ✅ lien corrigé
                       className="inline-flex items-center rounded-full bg-cyan-700 hover:bg-cyan-600 text-white px-4 py-2 text-xs font-medium"
                     >
                       {t.readMore}

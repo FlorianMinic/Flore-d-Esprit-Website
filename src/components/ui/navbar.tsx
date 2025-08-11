@@ -67,6 +67,7 @@ export function NavBar() {
   const { locale } = useLocale();
   const pathname = usePathname() || '/';
 
+  // Normalise le pathname: retire /fr ou /en au début si présent
   const normalizedPath = useMemo(
     () => pathname.replace(/^\/(fr|en)(?=\/|$)/, '') || '/',
     [pathname]
@@ -76,8 +77,7 @@ export function NavBar() {
     fr: {
       home: 'Accueil',
       news: 'Actualités',
-      presskit: 'Press Kit',
-      about: 'À propos',
+      aboutme: 'À propos de moi',       // ← nouveau label
       partners: 'Partenaires',
       contact: 'Contact',
       creationsAI: 'Créations IA',
@@ -87,8 +87,7 @@ export function NavBar() {
     en: {
       home: 'Home',
       news: 'News',
-      presskit: 'Press Kit',
-      about: 'About',
+      aboutme: 'About me',              // ← nouveau label
       partners: 'Partners',
       contact: 'Contact',
       creationsAI: 'AI Creations',
@@ -97,11 +96,11 @@ export function NavBar() {
     },
   }[locale];
 
+  // Liens MAJ : plus de /about ; /presskit → /aboutme
   const links = [
     { label: t.home, href: '/' },
     { label: t.news, href: '/news' },
-    { label: t.presskit, href: '/presskit' },
-    { label: t.about, href: '/about' },
+    { label: t.aboutme, href: '/aboutme' },      // ← renommé
     { label: t.partners, href: '/partners' },
     { label: t.contact, href: '/contact' },
     { label: t.creationsAI, href: '/creation-ai' },
@@ -118,9 +117,9 @@ export function NavBar() {
 
   return (
     <nav className="fixed inset-x-0 top-0 z-20 border-b border-white/10 bg-gradient-to-b from-black/80 to-black/60 backdrop-blur-md">
-      {/* --- Barre desktop : bord gauche = lecteur+logo, lien au centre, bord droit = réseaux+lang --- */}
+      {/* --- Barre desktop : gauche = lecteur+logo, centre = liens, droite = réseaux+lang --- */}
       <div className="relative hidden md:block h-14">
-        {/* Gauche collé au bord écran */}
+        {/* Gauche */}
         <div className="absolute inset-y-0 left-0 pl-4 lg:pl-6 flex items-center gap-4">
           <MiniAudioPlayer src="/audio/extrait.mp3" title={t.nowPlaying} />
           <Link href="/" className="flex-shrink-0">
@@ -130,7 +129,7 @@ export function NavBar() {
           </Link>
         </div>
 
-        {/* Centre parfaitement centré */}
+        {/* Centre */}
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
           <ul className="pointer-events-auto flex flex-wrap items-center justify-center gap-2 sm:gap-3">
             {links.map(({ label, href }) => {
@@ -150,7 +149,7 @@ export function NavBar() {
           </ul>
         </div>
 
-        {/* Droite collé au bord écran */}
+        {/* Droite */}
         <div className="absolute inset-y-0 right-0 pr-4 lg:pr-6 flex items-center justify-end gap-3">
           <Link href="https://youtube.com" target="_blank" aria-label="YouTube" className="social-link"><FaYoutube size={16} /></Link>
           <Link href="https://twitter.com" target="_blank" aria-label="Twitter/X" className="social-link"><FaTwitter size={16} /></Link>
