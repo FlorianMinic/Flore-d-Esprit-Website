@@ -53,3 +53,15 @@ html {
 .hover\:animate-bounce-cartoon:hover {
   animation: bounce-cartoon 0.6s ease-out;
 }
+
+/* Cache la scrollbar de page tout en gardant le scroll */
+html, body { overflow-x: hidden; }
+body { scrollbar-width: none; -ms-overflow-style: none; }
+body::-webkit-scrollbar { width: 0; height: 0; }
+
+/* Swiper : pas de débordement + flèches styling */
+.swiper { overflow: hidden !important; }
+.swiper-button-next, .swiper-button-prev { color: #a5b4fc; }
+@media (max-width: 767px) {
+  .swiper-button-next, .swiper-button-prev { display: none !important; }
+}
