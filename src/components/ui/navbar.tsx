@@ -63,7 +63,8 @@ function MiniAudioPlayer({ src = '/audio/extrait.mp3', title }: { src?: string; 
 
 /* --------------------- NavBar --------------------- */
 export function NavBar() {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);              // mobile menu
+  const [tabletPanel, setTabletPanel] = useState(false);    // tablet side panel
   const { locale } = useLocale();
   const pathname = usePathname() || '/';
 
@@ -77,39 +78,48 @@ export function NavBar() {
     fr: {
       home: 'Accueil',
       news: 'Actualités',
-      aboutme: 'À propos de moi',       // ← nouveau label
+      aboutme: 'À propos de moi',
       partners: 'Partenaires',
       contact: 'Contact',
       creationsAI: 'Créations IA',
       merch: 'Merch',
       nowPlaying: "Écoute : Extrait",
+      open: 'Ouvrir',
+      close: 'Fermer',
+      menu: 'Menu',
+      more: 'Plus'
     },
     en: {
       home: 'Home',
       news: 'News',
-      aboutme: 'About me',              // ← nouveau label
+      aboutme: 'About me',
       partners: 'Partners',
       contact: 'Contact',
       creationsAI: 'AI Creations',
       merch: 'Merch',
       nowPlaying: 'Now playing: Preview',
+      open: 'Open',
+      close: 'Close',
+      menu: 'Menu',
+      more: 'More'
     },
   }[locale];
 
-  // Liens MAJ : plus de /about ; /presskit → /aboutme
   const links = [
     { label: t.home, href: '/' },
     { label: t.news, href: '/news' },
-    { label: t.aboutme, href: '/aboutme' },      // ← renommé
+    { label: t.aboutme, href: '/aboutme' },
     { label: t.partners, href: '/partners' },
     { label: t.contact, href: '/contact' },
     { label: t.creationsAI, href: '/creation-ai' },
     { label: t.merch, href: '/merch' },
   ];
 
+  // Ferme les panneaux en navigation
   useEffect(() => {
-    if (isOpen) setIsOpen(false);
-  }, [normalizedPath, isOpen]);
+    setIsOpen(false);
+    setTabletPanel(false);
+  }, [normalizedPath]);
 
   const pillBase = 'px-3 py-1 rounded-full text-[13px] lg:text-sm font-medium transition-colors';
   const pillIdle = 'text-gray-300 hover:text-white hover:bg-white/10';
@@ -117,8 +127,8 @@ export function NavBar() {
 
   return (
     <nav className="fixed inset-x-0 top-0 z-20 border-b border-white/10 bg-gradient-to-b from-black/80 to-black/60 backdrop-blur-md">
-      {/* --- Barre desktop : gauche = lecteur+logo, centre = liens, droite = réseaux+lang --- */}
-      <div className="relative hidden md:block h-14">
+      {/* ---------------- Desktop ≥ xl : ton layout inchangé ---------------- */}
+      <div className="relative hidden xl:block h-14">
         {/* Gauche */}
         <div className="absolute inset-y-0 left-0 pl-4 lg:pl-6 flex items-center gap-4">
           <MiniAudioPlayer src="/audio/extrait.mp3" title={t.nowPlaying} />
@@ -164,7 +174,77 @@ export function NavBar() {
         </div>
       </div>
 
-      {/* Mobile */}
+      {/* ---------------- Tablette md → <xl ---------------- */}
+      <div className="hidden md:flex xl:hidden h-14 items-center justify-between px-4">
+        {/* Gauche : logo + mini lecteur (compact) */}
+        <div className="flex items-center gap-3 min-w-0">
+          <Link href="/" className="flex-shrink-0">
+            <span className={`${audiowide.className} text-[17px] tracking-wide text-purple-300`}>
+              Flore d&apos;Esprit
+            </span>
+          </Link>
+          <div className="hidden lg:block">
+            <MiniAudioPlayer src="/audio/extrait.mp3" title={t.nowPlaying} />
+          </div>
+        </div>
+
+        {/* Centre : nav pills défilables */}
+        <div className="mx-3 flex-1 overflow-x-auto no-scrollbar">
+          <ul className="flex items-center gap-2 w-max">
+            {links.map(({ label, href }) => {
+              const active = normalizedPath === href;
+              return (
+                <li key={href} className="shrink-0">
+                  <Link
+                    href={href}
+                    className={`px-3 py-1 rounded-full text-[13px] font-medium whitespace-nowrap ${active ? pillActive : pillIdle}`}
+                    aria-current={active ? 'page' : undefined}
+                  >
+                    {label}
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+
+        {/* Droite : bouton d’ouverture du panneau (réseaux + langue) */}
+        <div className="flex items-center">
+          <button
+            onClick={() => setTabletPanel(v => !v)}
+            className="inline-flex items-center justify-center rounded-md p-2 text-purple-300 hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-purple-400"
+            aria-label={tabletPanel ? t.close : t.more}
+            aria-expanded={tabletPanel}
+          >
+            {/* icône "dots" simple */}
+            <svg className="h-6 w-6" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
+              <circle cx="5" cy="12" r="1.8" />
+              <circle cx="12" cy="12" r="1.8" />
+              <circle cx="19" cy="12" r="1.8" />
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      {/* Panneau tablette */}
+      {tabletPanel && (
+        <div className="md:block xl:hidden border-t border-white/10 bg-black/85 backdrop-blur-md">
+          <div className="px-4 py-3 flex items-center justify-between gap-4">
+            <div className="flex items-center gap-3">
+              <Link href="https://youtube.com" target="_blank" aria-label="YouTube" className="social-link"><FaYoutube size={18} /></Link>
+              <Link href="https://twitter.com" target="_blank" aria-label="Twitter/X" className="social-link"><FaTwitter size={18} /></Link>
+              <Link href="https://instagram.com" target="_blank" aria-label="Instagram" className="social-link"><FaInstagram size={18} /></Link>
+              <Link href="https://tiktok.com" target="_blank" aria-label="TikTok" className="social-link"><FaTiktok size={18} /></Link>
+              <Link href="https://spotify.com" target="_blank" aria-label="Spotify" className="social-link"><FaSpotify size={18} /></Link>
+              <Link href="https://deezer.com" target="_blank" aria-label="Deezer" className="social-link"><FaDeezer size={18} /></Link>
+              <Link href="https://app.suno.ai/profile/FloreDesprit" target="_blank" aria-label="Suno" className="social-link"><HiOutlineMusicalNote size={18} /></Link>
+            </div>
+            <LanguageSwitcher />
+          </div>
+        </div>
+      )}
+
+      {/* ---------------- Mobile < md ---------------- */}
       <div className="md:hidden flex items-center justify-between h-14 px-4">
         <Link href="/" className="flex-shrink-0">
           <span className={`${audiowide.className} text-[17px] tracking-wide text-purple-300`}>
@@ -176,6 +256,7 @@ export function NavBar() {
           className="inline-flex items-center justify-center rounded-md p-2 text-purple-300 hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-purple-400"
           aria-controls="mobile-menu"
           aria-expanded={isOpen}
+          aria-label={isOpen ? t.close : t.menu}
         >
           <svg className="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor">
             {isOpen ? (
@@ -214,11 +295,13 @@ export function NavBar() {
         </div>
       )}
 
-      {/* Style icônes réseaux */}
+      {/* Styles globaux */}
       <style jsx global>{`
         .social-link { display:inline-flex; align-items:center; justify-content:center; color: rgb(216 180 254); }
         .social-link:hover { transform: translateY(-1px); filter: drop-shadow(0 0 6px rgba(168,85,247,.35)); transition: all 150ms; }
         .dark .social-link { color: rgb(216 180 254); }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
       `}</style>
     </nav>
   );

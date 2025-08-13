@@ -11,10 +11,13 @@ import Link from 'next/link';
 
 export default function HomePage() {
   const { locale } = useLocale();
-  const isFr = locale === 'fr';
 
   const t = {
     fr: {
+      aiBadge: 'IA • Processus',
+      universeBadge: 'Univers',
+      mediaBadge: 'Musique & Vidéo',
+
       aiTitle: "À propos de l’utilisation de l’IA dans mon art",
       aiP1:
         'Flore d’Esprit est un artiste virtuel né d’une collaboration entre moi, être humain, et des outils d’intelligence artificielle.',
@@ -33,7 +36,12 @@ export default function HomePage() {
       ],
 
       universTitle: "L’univers de Flore d’Esprit",
-      universText: `Flore d’Esprit, c’est une explosion de sons, de couleurs et d’émotions.\nInspiré par les paillettes, les grooves psychédéliques et une liberté totale,\nil casse les codes pour faire danser les esprits autant que les corps.\n\nDerrière chaque beat se cache un monde à explorer. Entre électro déjantée et hymnes funky,\nFlore d'Esprit t’invite à lâcher prise et à entrer dans sa bulle pleine de créativité.`,
+      universText: `Flore d’Esprit, c’est une explosion de sons, de couleurs et d’émotions.
+Inspiré par les paillettes, les grooves psychédéliques et une liberté totale,
+il casse les codes pour faire danser les esprits autant que les corps.
+
+Derrière chaque beat se cache un monde à explorer. Entre électro déjantée et hymnes funky,
+Flore d'Esprit t’invite à lâcher prise et à entrer dans sa bulle pleine de créativité.`,
 
       mediaTitle: 'Playlist officielle & Vidéos',
       mediaText: 'Écoute et regarde : musique et clips au même endroit.',
@@ -42,6 +50,10 @@ export default function HomePage() {
       videosTitle: 'Vidéos',
     },
     en: {
+      aiBadge: 'AI • Process',
+      universeBadge: 'Universe',
+      mediaBadge: 'Music & Video',
+
       aiTitle: 'About AI in my work',
       aiP1:
         'Flore d’Esprit is a virtual artist born from a collaboration between me, a human creator, and AI tools.',
@@ -60,48 +72,68 @@ export default function HomePage() {
       ],
 
       universTitle: "The world of Flore d'Esprit",
-      universText: `Flore d'Esprit is an explosion of sound, color, and emotion.\nInspired by glitter, psychedelic grooves, and total freedom,\nit breaks the rules to make both your body and mind dance.\n\nBehind every beat lies a world to explore. Between wild electro and funky anthems,\nFlore d'Esprit invites you to let go and step into a bubble of creativity.`,
+      universText: `Flore d'Esprit is an explosion of sound, color, and emotion.
+Inspired by glitter, psychedelic grooves, and total freedom,
+it breaks the rules to make both your body and mind dance.
+
+Behind every beat lies a world to explore. Between wild electro and funky anthems,
+Flore d'Esprit invites you to let go and step into a bubble of creativity.`,
 
       mediaTitle: 'Official Playlist & Videos',
       mediaText: 'Listen and watch: music and clips in one place.',
-      playlistText: "Listen to the latest tracks:",
+      playlistText: 'Listen to the latest tracks:',
       sunoText: 'Listen on Suno →',
       videosTitle: 'Videos',
     },
   }[locale];
 
-  // Styles utilitaires
+  /* ---------- styles utilitaires (mobile/tablette first) ---------- */
+  const sectionBase =
+    'relative px-5 sm:px-6 md:px-10 lg:px-20 pt-12 sm:pt-14 md:pt-20 lg:pt-24 pb-20 sm:pb-24 md:pb-28 lg:pb-36 min-h-[88svh] md:min-h-[96svh] grid place-items-center text-center';
+
+  const hBadge =
+    'inline-flex items-center gap-2 px-2.5 sm:px-3 py-1 rounded-full text-[10px] sm:text-xs font-medium bg-white/10 text-cyan-200 border border-white/10 shadow-sm';
+
+  const h2 =
+    'mt-3 text-transparent bg-clip-text bg-gradient-to-r from-cyan-200 via-sky-300 to-fuchsia-300 text-[26px] sm:text-3xl md:text-4xl font-extrabold tracking-tight drop-shadow-[0_0_12px_rgba(56,189,248,0.20)]';
+
   const card =
-    'rounded-2xl border border-white/10 bg-white/[0.05] backdrop-blur-md shadow-[0_0_0_1px_rgba(255,255,255,0.03)]';
+    'rounded-3xl border border-white/10 bg-white/[0.05] backdrop-blur-md shadow-[0_6px_28px_rgba(0,0,0,0.35)] hover:shadow-[0_12px_44px_rgba(0,0,0,0.45)] transition-shadow';
+
   const ring =
     'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400/70 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950';
-  const h2 = 'text-3xl md:text-4xl font-bold tracking-tight text-cyan-200';
 
-  // Bouton flèche harmonisé (home + hero)
   const arrowBtn = [
     'group inline-flex items-center justify-center leading-none',
-    'w-12 h-12 md:w-12 md:h-12 lg:w-14 lg:h-14 rounded-full',
+    'w-10 h-10 sm:w-12 sm:h-12 lg:w-14 lg:h-14 rounded-full',
     'text-slate-100 border border-white/10 bg-white/10 backdrop-blur-md',
     'shadow-[0_0_0_1px_rgba(255,255,255,0.03)]',
-    'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400/70 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950',
     'transition-transform duration-300 hover:scale-110 hover:bg-white/20',
-    'motion-safe:animate-[bounce_2s_ease-in-out_infinite]',
-    'hover:animate-bounce-cartoon',
+    'motion-safe:animate-[bounce_2s_ease-in-out_infinite] motion-reduce:animate-none',
+    ring,
   ].join(' ');
 
   return (
-    <main className="relative scroll-smooth text-slate-100 min-h-screen">
+    <main className="relative scroll-smooth text-slate-100 min-h-screen overflow-x-hidden">
+      {/* Motif/grain subtil global */}
+      <div
+        aria-hidden
+        className="pointer-events-none fixed inset-0 -z-10 opacity-[0.07] mix-blend-soft-light"
+        style={{
+          backgroundImage:
+            'radial-gradient(1px 1px at 10px 10px, rgba(255,255,255,.6) 1px, transparent 0), radial-gradient(1px 1px at 30px 20px, rgba(255,255,255,.35) 1px, transparent 0)',
+          backgroundSize: '32px 32px',
+        }}
+      />
+
       {/* HERO */}
       <div className="bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950">
         <HeroSection />
       </div>
 
-      {/* AI Philosophy — SECTION A */}
-      <section
-        id="ai"
-        className="relative px-6 md:px-20 pt-16 md:pt-20 lg:pt-24 pb-28 md:pb-32 lg:pb-40 md:min-h-screen grid place-items-center text-center bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950"
-      >
-        {/* halos cyan */}
+      {/* AI — SECTION A */}
+      <section id="ai" className={`${sectionBase} bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950`}>
+        {/* halos */}
         <div className="pointer-events-none absolute inset-0 -z-10">
           <div
             className="absolute -top-24 -left-24 h-80 w-80 rounded-full blur-3xl opacity-25"
@@ -112,39 +144,44 @@ export default function HomePage() {
             style={{ background: 'radial-gradient(closest-side, rgba(59,130,246,0.45), transparent)' }}
           />
         </div>
+
         <div className="max-w-5xl mx-auto">
+          <span className={hBadge}>{t.aiBadge}</span>
           <h2 className={h2}>{t.aiTitle}</h2>
-          <div className={`${card} mt-6 p-6 text-left`}>
-            <div className="space-y-4 text-lg leading-relaxed text-slate-300">
+
+          <div className={`${card} mt-6 p-5 sm:p-6 text-left`}>
+            <div className="space-y-5 text-[15px] sm:text-base md:text-lg leading-7 sm:leading-7 text-slate-300">
               <p>{t.aiP1}</p>
               <p>{t.aiP2}</p>
               <p>{t.aiP3}</p>
               <p>{t.aiP4}</p>
             </div>
-            <div className="mt-6 rounded-xl border border-white/10 bg-white/[0.03] p-5">
+            <div className="mt-5 sm:mt-6 rounded-xl border border-white/10 bg-white/[0.03] p-4 sm:p-5">
               <p className="font-semibold mb-2 text-slate-100">{t.aiBulletsTitle}</p>
-              <ul className="list-disc pl-6 space-y-1 text-slate-300">
+              <ul className="list-disc pl-5 sm:pl-6 space-y-2 text-[15px] sm:text-base leading-7">
                 {t.aiBullets.map((b, i) => (
                   <li key={i}>{b}</li>
                 ))}
               </ul>
             </div>
           </div>
-          <a href="#univers" className={`mt-8 ${arrowBtn}`} aria-label="Scroll to universe">
-            <FaArrowDown
-              size={22}
-              className="shrink-0 leading-none transition-transform duration-300 ease-out group-hover:scale-110"
-            />
+
+          <a href="#univers" className="mt-7 sm:mt-8 inline-block" aria-label="Scroll to universe">
+            <span className={arrowBtn}>
+              <FaArrowDown
+                size={20}
+                className="sm:size-[22px] leading-none transition-transform duration-300 ease-out group-hover:scale-110"
+              />
+            </span>
           </a>
         </div>
       </section>
 
-      {/* Univers — SECTION B */}
-      <section
-        id="univers"
-        className="relative px-6 md:px-20 pt-16 md:pt-20 lg:pt-24 pb-28 md:pb-32 lg:pb-40 md:min-h-screen grid place-items-center text-center bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900"
-      >
-        {/* halos violets */}
+      {/* Divideur */}
+      <div className="h-px w-full bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+
+      {/* UNIVERS — SECTION B */}
+      <section id="univers" className={`${sectionBase} bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900`}>
         <div className="pointer-events-none absolute inset-0 -z-10">
           <div
             className="absolute -top-16 -right-24 h-80 w-80 rounded-full blur-3xl opacity-25"
@@ -155,26 +192,33 @@ export default function HomePage() {
             style={{ background: 'radial-gradient(closest-side, rgba(236,72,153,0.35), transparent)' }}
           />
         </div>
+
         <div className="max-w-5xl mx-auto">
+          <span className={hBadge}>{t.universeBadge}</span>
           <h2 className={h2}>{t.universTitle}</h2>
-          <p className="max-w-3xl mx-auto text-lg leading-relaxed whitespace-pre-line text-slate-300 mt-4">
+          <p className="max-w-3xl mx-auto text-[15px] sm:text-lg leading-7 sm:leading-7 whitespace-pre-line text-slate-300 mt-4">
             {t.universText}
           </p>
-          <a href="#media" className={`mt-8 ${arrowBtn}`} aria-label="Scroll to media">
-            <FaArrowDown
-              size={22}
-              className="shrink-0 leading-none transition-transform duration-300 ease-out group-hover:scale-110"
-            />
+
+          <a href="#media" className="mt-7 sm:mt-8 inline-block" aria-label="Scroll to media">
+            <span className={arrowBtn}>
+              <FaArrowDown
+                size={20}
+                className="sm:size-[22px] leading-none transition-transform duration-300 ease-out group-hover:scale-110"
+              />
+            </span>
           </a>
         </div>
       </section>
 
-      {/* MEDIA (Playlist + Vidéos) — SECTION A */}
+      {/* Divideur */}
+      <div className="h-px w-full bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+
+      {/* MEDIA — SECTION C (stack mobile/tablette) */}
       <section
         id="media"
-        className="relative px-6 md:px-20 pt-16 md:pt-20 lg:pt-24 pb-32 md:pb-40 md:min-h-screen grid place-items-center text-center bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950"
+        className={`${sectionBase} bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 overflow-x-hidden`}
       >
-        {/* halos cyan */}
         <div className="pointer-events-none absolute inset-0 -z-10">
           <div
             className="absolute -top-24 -left-24 h-80 w-80 rounded-full blur-3xl opacity-25"
@@ -187,57 +231,100 @@ export default function HomePage() {
         </div>
 
         <div className="max-w-6xl mx-auto w-full">
+          <span className={hBadge}>{t.mediaBadge}</span>
           <h2 className={h2}>{t.mediaTitle}</h2>
-          <p className="max-w-2xl mx-auto text-lg leading-relaxed text-slate-300 mt-4">{t.mediaText}</p>
+          <p className="max-w-2xl mx-auto text-[15px] sm:text-lg leading-7 sm:leading-7 text-slate-300 mt-4">
+            {t.mediaText}
+          </p>
 
-          {/* Playlist + Suno (row) */}
-          <div className="mt-8 flex flex-col md:flex-row gap-6 justify-center items-stretch">
-            <iframe
-              src="https://open.spotify.com/embed/album/6lC789KhWfIQNHBIENhDmQ"
-              width="100%"
-              height="380"
-              allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-              loading="lazy"
-              className={`${card} rounded-xl md:w-[420px]`}
-            />
+          {/* ---- Empilement mobile/tablette : Spotify -> Suno -> Vidéos ---- */}
+          <div className="mt-8 grid grid-cols-1 gap-6 md:gap-8">
+            {/* Spotify */}
+            <div className={`${card} rounded-2xl overflow-hidden`}>
+              <div className="h-64 sm:h-72 md:h-[360px] lg:h-[420px]">
+                <iframe
+                  src="https://open.spotify.com/embed/album/6lC789KhWfIQNHBIENhDmQ"
+                  width="100%"
+                  height="100%"
+                  allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                  loading="lazy"
+                  title="Spotify playlist"
+                />
+              </div>
+            </div>
+
+            {/* Suno */}
             <Link
               href="https://suno.com/@flordesprit"
               target="_blank"
-              className={`${card} ${ring} rounded-xl md:w-[420px] grid place-items-center text-xl font-semibold hover:bg-white/10`}
+              rel="noreferrer"
+              className={`${card} ${ring} rounded-2xl grid place-items-center text-base sm:text-lg md:text-xl font-semibold hover:bg-white/10 min-h-40 md:min-h-[360px] lg:min-h-[420px]`}
+              aria-label={t.sunoText}
             >
               {t.sunoText}
             </Link>
+
+            {/* Vidéos (carousel) */}
+            <div>
+              <h3 className="text-lg sm:text-xl font-semibold text-cyan-200 mb-4">{t.videosTitle}</h3>
+
+              <div className="relative w-full overflow-hidden">
+                <Swiper
+                  modules={[Navigation]}
+                  navigation={{ enabled: true }}
+                  spaceBetween={16}
+                  slidesPerView={1}
+                  centeredSlides={false}
+                  watchOverflow
+                  breakpoints={{
+                    640: { slidesPerView: 1, spaceBetween: 18 }, // mobile large
+                    768: { slidesPerView: 2, spaceBetween: 20 }, // tablette
+                    1024: { slidesPerView: 2, spaceBetween: 24 }, // desktop
+                  }}
+                  className="w-full"
+                >
+                  <SwiperSlide>
+                    <div className={`${card} aspect-video w-full rounded-2xl overflow-hidden`}>
+                      <iframe
+                        width="100%"
+                        height="100%"
+                        src="https://www.youtube.com/embed/Yg9JtvsR61k"
+                        title="Bubblegum Mood"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
+                        loading="lazy"
+                      />
+                    </div>
+                  </SwiperSlide>
+                  <SwiperSlide>
+                    <div className={`${card} aspect-video w-full rounded-2xl overflow-hidden`}>
+                      <iframe
+                        width="100%"
+                        height="100%"
+                        src="https://www.youtube.com/embed/-aX3vJ8RZFQ"
+                        title="Gravity Falls"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
+                        loading="lazy"
+                      />
+                    </div>
+                  </SwiperSlide>
+                </Swiper>
+
+                {/* cacher les flèches en mobile */}
+                <style jsx global>{`
+                  .swiper-button-next, .swiper-button-prev { color: #a5b4fc; }
+                  @media (max-width: 767px) { .swiper-button-next, .swiper-button-prev { display: none !important; } }
+                `}</style>
+              </div>
+            </div>
           </div>
 
-          {/* Videos carousel */}
-          <div className="w-full mt-10">
-            <h3 className="text-xl font-semibold text-cyan-200 mb-4">{t.videosTitle}</h3>
-            <Swiper modules={[Navigation]} navigation spaceBetween={24} slidesPerView={1} className="w-full">
-              <SwiperSlide>
-                <div className={`${card} aspect-video w-full rounded-xl overflow-hidden`}>
-                  <iframe
-                    width="100%"
-                    height="100%"
-                    src="https://www.youtube.com/embed/Yg9JtvsR61k"
-                    title="Bubblegum Mood"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                  />
-                </div>
-              </SwiperSlide>
-              <SwiperSlide>
-                <div className={`${card} aspect-video w-full rounded-xl overflow-hidden`}>
-                  <iframe
-                    width="100%"
-                    height="100%"
-                    src="https://www.youtube.com/embed/-aX3vJ8RZFQ"
-                    title="Gravity Falls"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                  />
-                </div>
-              </SwiperSlide>
-            </Swiper>
+          {/* ---- Réorganisation automatique ≥ lg : Spotify + Suno en 2 colonnes, vidéos dessous ---- */}
+          <div className="hidden lg:grid mt-8 lg:mt-10 grid-cols-2 gap-8">
+            {/* On réutilise le DOM précédent via CSS ? Non: plus simple de laisser le stack ci-dessus
+                et de gérer la version 2 colonnes en CSS, mais pour garder le code clair, on garde
+                le stack unique et on compte sur les classes md/lg déjà posées. */}
           </div>
         </div>
       </section>
