@@ -102,10 +102,10 @@ Flore d'Esprit invites you to let go and step into a bubble of creativity.`,
     ring,
   ].join(' ');
 
-  // Section média : plus d’air en haut + ancrage confortable + pas de débordement horizontal
+  // Section média : air en haut + ancrage confortable + PAS de scroll interne (overflow-y-visible)
   const sectionMedia =
     `${sectionBase} bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 ` +
-    'pt-20 sm:pt-24 md:pt-28 lg:pt-32 scroll-mt-28 md:scroll-mt-32 lg:scroll-mt-36 overflow-x-hidden';
+    'pt-20 sm:pt-24 md:pt-28 lg:pt-32 scroll-mt-28 md:scroll-mt-32 lg:scroll-mt-36 overflow-x-hidden overflow-y-visible';
 
   return (
     <main className="relative scroll-smooth text-slate-100 min-h-screen overflow-x-hidden">
@@ -199,7 +199,7 @@ Flore d'Esprit invites you to let go and step into a bubble of creativity.`,
 
       <div className="h-px w-full bg-gradient-to-r from-transparent via-white/10 to-transparent" />
 
-      {/* MEDIA — espacement + carrousel unique */}
+      {/* MEDIA — espacement + carrousel unique, pas de scroll interne */}
       <section id="media" className={sectionMedia}>
         <div className="pointer-events-none absolute inset-0 -z-10">
           <div
