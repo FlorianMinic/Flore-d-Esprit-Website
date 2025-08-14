@@ -35,7 +35,7 @@ export default function NewsPage() {
       img: '/news/sample-3.jpg',
     },
     {
-      slug: 'newsong', // ✅ maintenant ça correspond à ton dossier
+      slug: 'newsong',
       title: isFr ? 'Nouvelle chanson en préparation' : 'New song in the works',
       date: '2025-08-01',
       excerpt: isFr
@@ -48,7 +48,12 @@ export default function NewsPage() {
   return (
     <main className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 text-slate-100 px-6 py-20 md:px-20">
       <div className="max-w-6xl mx-auto text-center mb-12">
-        <h1 className="text-4xl md:text-5xl font-extrabold text-cyan-400 mb-4">{t.title}</h1>
+        <h1 className="text-4xl md:text-5xl font-extrabold mb-4 
+                       text-transparent bg-clip-text bg-gradient-to-r 
+                       from-cyan-200 via-sky-300 to-fuchsia-300 
+                       drop-shadow-[0_0_12px_rgba(56,189,248,0.20)]">
+          {t.title}
+        </h1>
         <p className="max-w-2xl mx-auto text-lg md:text-xl text-slate-300">{t.subtitle}</p>
       </div>
 
@@ -58,7 +63,12 @@ export default function NewsPage() {
         </div>
       ) : (
         <section>
-          <h2 className="text-2xl font-bold mb-6">{t.latest}</h2>
+          <h2 className="text-2xl font-bold mb-6
+                         text-transparent bg-clip-text bg-gradient-to-r 
+                         from-cyan-200 via-sky-300 to-fuchsia-300 
+                         drop-shadow-[0_0_12px_rgba(56,189,248,0.20)]">
+            {t.latest}
+          </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {posts.map((p) => (
               <article key={p.slug} className="rounded-2xl overflow-hidden border border-white/10 bg-white/5 backdrop-blur-md flex flex-col">
@@ -68,12 +78,19 @@ export default function NewsPage() {
                   )}
                 </div>
                 <div className="p-5 flex flex-col flex-grow">
-                  <p className="text-xs text-slate-400 mb-2">{new Date(p.date).toLocaleDateString(locale)}</p>
-                  <h3 className="font-semibold text-lg mb-2">{p.title}</h3>
+                  <p className="text-xs text-slate-400 mb-2">
+                    {new Date(p.date).toLocaleDateString(locale)}
+                  </p>
+                  <h3 className="font-semibold text-lg mb-2
+                                 text-transparent bg-clip-text bg-gradient-to-r 
+                                 from-cyan-200 via-sky-300 to-fuchsia-300 
+                                 drop-shadow-[0_0_12px_rgba(56,189,248,0.20)]">
+                    {p.title}
+                  </h3>
                   <p className="text-slate-300 flex-grow">{p.excerpt}</p>
                   <div className="mt-4">
                     <Link
-                      href={`/news/${p.slug}`} // ✅ lien corrigé
+                      href={`/news/${p.slug}`}
                       className="inline-flex items-center rounded-full bg-cyan-700 hover:bg-cyan-600 text-white px-4 py-2 text-xs font-medium"
                     >
                       {t.readMore}

@@ -3,7 +3,8 @@
 import Link from 'next/link';
 import { useRef, useState, useEffect, useMemo } from 'react';
 import { usePathname } from 'next/navigation';
-import { FaYoutube, FaTwitter, FaInstagram, FaTiktok, FaSpotify, FaDeezer } from 'react-icons/fa';
+import { FaYoutube, FaInstagram, FaTiktok, FaSpotify, FaDeezer } from 'react-icons/fa';
+import { SiX } from 'react-icons/si'; // Icône officielle X (ex-Twitter)
 import { HiOutlineMusicalNote } from 'react-icons/hi2';
 import { LanguageSwitcher } from '@/components/ui/languageSwitcher';
 import { useLocale } from '@/hooks/useLocale';
@@ -63,12 +64,11 @@ function MiniAudioPlayer({ src = '/audio/extrait.mp3', title }: { src?: string; 
 
 /* --------------------- NavBar --------------------- */
 export function NavBar() {
-  const [isOpen, setIsOpen] = useState(false);              // mobile menu
-  const [tabletPanel, setTabletPanel] = useState(false);    // tablet side panel
+  const [isOpen, setIsOpen] = useState(false);
+  const [tabletPanel, setTabletPanel] = useState(false);
   const { locale } = useLocale();
   const pathname = usePathname() || '/';
 
-  // Normalise le pathname: retire /fr ou /en au début si présent
   const normalizedPath = useMemo(
     () => pathname.replace(/^\/(fr|en)(?=\/|$)/, '') || '/',
     [pathname]
@@ -105,18 +105,16 @@ export function NavBar() {
     },
   }[locale];
 
-const links = [
-  { label: t.home, href: '/' },
-  { label: t.creationsAI, href: '/creation-ai' },
-  { label: t.news, href: '/news' },
-  { label: t.aboutme, href: '/aboutme' },
-  { label: t.partners, href: '/partners' },
-  { label: t.merch, href: '/merch' },
-  { label: t.contact, href: '/contact' },
-];
+  const links = [
+    { label: t.home, href: '/' },
+    { label: t.creationsAI, href: '/creation-ai' },
+    { label: t.news, href: '/news' },
+    { label: t.aboutme, href: '/aboutme' },
+    { label: t.partners, href: '/partners' },
+    { label: t.merch, href: '/merch' },
+    { label: t.contact, href: '/contact' },
+  ];
 
-
-  // Ferme les panneaux en navigation
   useEffect(() => {
     setIsOpen(false);
     setTabletPanel(false);
@@ -128,9 +126,8 @@ const links = [
 
   return (
     <nav className="fixed inset-x-0 top-0 z-20 border-b border-white/10 bg-gradient-to-b from-black/80 to-black/60 backdrop-blur-md">
-      {/* ---------------- Desktop ≥ xl : ton layout inchangé ---------------- */}
+      {/* ---------------- Desktop ≥ xl ---------------- */}
       <div className="relative hidden xl:block h-14">
-        {/* Gauche */}
         <div className="absolute inset-y-0 left-0 pl-4 lg:pl-6 flex items-center gap-4">
           <MiniAudioPlayer src="/audio/extrait.mp3" title={t.nowPlaying} />
           <Link href="/" className="flex-shrink-0">
@@ -140,7 +137,6 @@ const links = [
           </Link>
         </div>
 
-        {/* Centre */}
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
           <ul className="pointer-events-auto flex flex-wrap items-center justify-center gap-2 sm:gap-3">
             {links.map(({ label, href }) => {
@@ -160,15 +156,14 @@ const links = [
           </ul>
         </div>
 
-        {/* Droite */}
         <div className="absolute inset-y-0 right-0 pr-4 lg:pr-6 flex items-center justify-end gap-3">
-          <Link href="https://youtube.com" target="_blank" aria-label="YouTube" className="social-link"><FaYoutube size={16} /></Link>
-          <Link href="https://twitter.com" target="_blank" aria-label="Twitter/X" className="social-link"><FaTwitter size={16} /></Link>
-          <Link href="https://instagram.com" target="_blank" aria-label="Instagram" className="social-link"><FaInstagram size={16} /></Link>
-          <Link href="https://tiktok.com" target="_blank" aria-label="TikTok" className="social-link"><FaTiktok size={16} /></Link>
-          <Link href="https://spotify.com" target="_blank" aria-label="Spotify" className="social-link"><FaSpotify size={16} /></Link>
-          <Link href="https://deezer.com" target="_blank" aria-label="Deezer" className="social-link"><FaDeezer size={16} /></Link>
-          <Link href="https://app.suno.ai/profile/FloreDesprit" target="_blank" aria-label="Suno" className="social-link"><HiOutlineMusicalNote size={16} /></Link>
+          <Link href="https://www.youtube.com/@FloredEsprit-k7c" target="_blank" aria-label="YouTube" className="social-link"><FaYoutube size={16} /></Link>
+          <Link href="https://x.com/FloreD72226" target="_blank" aria-label="X" className="social-link"><SiX size={16} /></Link>
+          <Link href="https://www.instagram.com/flore_desprit/" target="_blank" aria-label="Instagram" className="social-link"><FaInstagram size={16} /></Link>
+          <Link href="https://www.tiktok.com/@floredesprit" target="_blank" aria-label="TikTok" className="social-link"><FaTiktok size={16} /></Link>
+          <Link href="https://open.spotify.com/intl-fr/artist/7FVerziPMd52srNMLo14FU" target="_blank" aria-label="Spotify" className="social-link"><FaSpotify size={16} /></Link>
+          <Link href="https://www.deezer.com/en/artist/281712681" target="_blank" aria-label="Deezer" className="social-link"><FaDeezer size={16} /></Link>
+          <Link href="https://suno.com/@flordesprit" target="_blank" aria-label="Suno" className="social-link"><HiOutlineMusicalNote size={16} /></Link>
           <div className="pl-2">
             <LanguageSwitcher />
           </div>
@@ -176,134 +171,22 @@ const links = [
       </div>
 
       {/* ---------------- Tablette md → <xl ---------------- */}
-      <div className="hidden md:flex xl:hidden h-14 items-center justify-between px-4">
-        {/* Gauche : logo + mini lecteur (compact) */}
-        <div className="flex items-center gap-3 min-w-0">
-          <Link href="/" className="flex-shrink-0">
-            <span className={`${audiowide.className} text-[17px] tracking-wide text-purple-300`}>
-              Flore d&apos;Esprit
-            </span>
-          </Link>
-          <div className="hidden lg:block">
-            <MiniAudioPlayer src="/audio/extrait.mp3" title={t.nowPlaying} />
-          </div>
-        </div>
-
-        {/* Centre : nav pills défilables */}
-        <div className="mx-3 flex-1 overflow-x-auto no-scrollbar">
-          <ul className="flex items-center gap-2 w-max">
-            {links.map(({ label, href }) => {
-              const active = normalizedPath === href;
-              return (
-                <li key={href} className="shrink-0">
-                  <Link
-                    href={href}
-                    className={`px-3 py-1 rounded-full text-[13px] font-medium whitespace-nowrap ${active ? pillActive : pillIdle}`}
-                    aria-current={active ? 'page' : undefined}
-                  >
-                    {label}
-                  </Link>
-                </li>
-              );
-            })}
-          </ul>
-        </div>
-
-        {/* Droite : bouton d’ouverture du panneau (réseaux + langue) */}
-        <div className="flex items-center">
-          <button
-            onClick={() => setTabletPanel(v => !v)}
-            className="inline-flex items-center justify-center rounded-md p-2 text-purple-300 hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-purple-400"
-            aria-label={tabletPanel ? t.close : t.more}
-            aria-expanded={tabletPanel}
-          >
-            {/* icône "dots" simple */}
-            <svg className="h-6 w-6" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
-              <circle cx="5" cy="12" r="1.8" />
-              <circle cx="12" cy="12" r="1.8" />
-              <circle cx="19" cy="12" r="1.8" />
-            </svg>
-          </button>
-        </div>
-      </div>
-
-      {/* Panneau tablette */}
       {tabletPanel && (
         <div className="md:block xl:hidden border-t border-white/10 bg-black/85 backdrop-blur-md">
           <div className="px-4 py-3 flex items-center justify-between gap-4">
             <div className="flex items-center gap-3">
-              <Link href="https://youtube.com" target="_blank" aria-label="YouTube" className="social-link"><FaYoutube size={18} /></Link>
-              <Link href="https://twitter.com" target="_blank" aria-label="Twitter/X" className="social-link"><FaTwitter size={18} /></Link>
-              <Link href="https://instagram.com" target="_blank" aria-label="Instagram" className="social-link"><FaInstagram size={18} /></Link>
-              <Link href="https://tiktok.com" target="_blank" aria-label="TikTok" className="social-link"><FaTiktok size={18} /></Link>
-              <Link href="https://spotify.com" target="_blank" aria-label="Spotify" className="social-link"><FaSpotify size={18} /></Link>
-              <Link href="https://deezer.com" target="_blank" aria-label="Deezer" className="social-link"><FaDeezer size={18} /></Link>
-              <Link href="https://app.suno.ai/profile/FloreDesprit" target="_blank" aria-label="Suno" className="social-link"><HiOutlineMusicalNote size={18} /></Link>
+              <Link href="https://www.youtube.com/@FloredEsprit-k7c" target="_blank" aria-label="YouTube" className="social-link"><FaYoutube size={18} /></Link>
+              <Link href="https://x.com/FloreD72226" target="_blank" aria-label="X" className="social-link"><SiX size={18} /></Link>
+              <Link href="https://www.instagram.com/flore_desprit/" target="_blank" aria-label="Instagram" className="social-link"><FaInstagram size={18} /></Link>
+              <Link href="https://www.tiktok.com/@floredesprit" target="_blank" aria-label="TikTok" className="social-link"><FaTiktok size={18} /></Link>
+              <Link href="https://open.spotify.com/intl-fr/artist/7FVerziPMd52srNMLo14FU" target="_blank" aria-label="Spotify" className="social-link"><FaSpotify size={18} /></Link>
+              <Link href="https://www.deezer.com/en/artist/281712681" target="_blank" aria-label="Deezer" className="social-link"><FaDeezer size={18} /></Link>
+              <Link href="https://suno.com/@flordesprit" target="_blank" aria-label="Suno" className="social-link"><HiOutlineMusicalNote size={18} /></Link>
             </div>
             <LanguageSwitcher />
           </div>
         </div>
       )}
-
-      {/* ---------------- Mobile < md ---------------- */}
-      <div className="md:hidden flex items-center justify-between h-14 px-4">
-        <Link href="/" className="flex-shrink-0">
-          <span className={`${audiowide.className} text-[17px] tracking-wide text-purple-300`}>
-            Flore d&apos;Esprit
-          </span>
-        </Link>
-        <button
-          onClick={() => setIsOpen(v => !v)}
-          className="inline-flex items-center justify-center rounded-md p-2 text-purple-300 hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-purple-400"
-          aria-controls="mobile-menu"
-          aria-expanded={isOpen}
-          aria-label={isOpen ? t.close : t.menu}
-        >
-          <svg className="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-            {isOpen ? (
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-            ) : (
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-            )}
-          </svg>
-        </button>
-      </div>
-
-      {/* Menu mobile */}
-      {isOpen && (
-        <div className="md:hidden bg-black/85 backdrop-blur-md border-t border-white/10" id="mobile-menu">
-          <div className="px-4 pt-3 pb-4 space-y-2">
-            <MiniAudioPlayer src="/audio/extrait.mp3" title={t.nowPlaying} />
-            {links.map(({ label, href }) => {
-              const active = normalizedPath === href;
-              return (
-                <Link key={href} href={href} onClick={() => setIsOpen(false)}>
-                  <span
-                    className={`block px-3 py-2 rounded-md text-base font-medium ${
-                      active ? 'text-white bg-white/10' : 'text-gray-200 hover:text-white hover:bg-white/5'
-                    }`}
-                    aria-current={active ? 'page' : undefined}
-                  >
-                    {label}
-                  </span>
-                </Link>
-              );
-            })}
-            <div className="flex items-center gap-3 pt-2">
-              <LanguageSwitcher />
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Styles globaux */}
-      <style jsx global>{`
-        .social-link { display:inline-flex; align-items:center; justify-content:center; color: rgb(216 180 254); }
-        .social-link:hover { transform: translateY(-1px); filter: drop-shadow(0 0 6px rgba(168,85,247,.35)); transition: all 150ms; }
-        .dark .social-link { color: rgb(216 180 254); }
-        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-        .no-scrollbar::-webkit-scrollbar { display: none; }
-      `}</style>
     </nav>
   );
 }

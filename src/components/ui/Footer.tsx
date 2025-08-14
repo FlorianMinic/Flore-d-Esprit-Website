@@ -3,12 +3,13 @@
 import Link from 'next/link';
 import {
   FaYoutube,
-  FaTwitter,
   FaTiktok,
   FaSpotify,
   FaDeezer,
   FaInstagram,
 } from 'react-icons/fa';
+import { SiX } from 'react-icons/si'; // Logo officiel de X
+import { HiOutlineMusicalNote } from 'react-icons/hi2'; // Icône Suno
 import { useLocale } from '@/hooks/useLocale';
 
 export function Footer() {
@@ -29,28 +30,24 @@ export function Footer() {
     'inline-flex items-center justify-center rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400/70 focus-visible:ring-offset-2 focus-visible:ring-offset-black transition transform will-change-transform';
 
   const iconSize =
-    // tailles progressives + cibles tactiles confortables
     'w-11 h-11 text-2xl sm:w-12 sm:h-12 sm:text-3xl md:w-12 md:h-12 md:text-3xl';
 
   const iconHover =
-    // animations douces + respect reduced-motion
     'motion-safe:hover:scale-110 hover:-translate-y-[1px]';
 
   return (
     <footer className="bg-black text-white">
       <div className="mx-auto max-w-7xl px-6 py-10 sm:px-8 md:py-12">
-        {/* Titre centré, marges adaptées */}
         <h2 className="text-lg sm:text-xl font-semibold text-center mb-6 sm:mb-8">
           {t.heading}
         </h2>
 
-        {/* Icônes responsives : wrap sur mobile, gap fluide */}
         <nav
           aria-label={t.heading}
           className="mx-auto max-w-3xl flex flex-wrap items-center justify-center gap-3 sm:gap-4 md:gap-5"
         >
           <Link
-            href="https://youtube.com"
+            href="https://www.youtube.com/@FloredEsprit-k7cX"
             target="_blank"
             rel="noopener noreferrer"
             aria-label="YouTube"
@@ -60,17 +57,17 @@ export function Footer() {
           </Link>
 
           <Link
-            href="https://twitter.com"
+            href="https://x.com/FloreD72226"
             target="_blank"
             rel="noopener noreferrer"
-            aria-label="Twitter / X"
+            aria-label="X"
             className={`${iconBase} ${iconSize} ${iconHover} text-white/80 hover:text-sky-400`}
           >
-            <FaTwitter />
+            <SiX />
           </Link>
 
           <Link
-            href="https://instagram.com"
+            href="https://www.instagram.com/flore_desprit/"
             target="_blank"
             rel="noopener noreferrer"
             aria-label="Instagram"
@@ -80,7 +77,7 @@ export function Footer() {
           </Link>
 
           <Link
-            href="https://tiktok.com"
+            href="https://www.tiktok.com/@floredesprit"
             target="_blank"
             rel="noopener noreferrer"
             aria-label="TikTok"
@@ -90,7 +87,7 @@ export function Footer() {
           </Link>
 
           <Link
-            href="https://spotify.com"
+            href="https://open.spotify.com/intl-fr/artist/7FVerziPMd52srNMLo14FU"
             target="_blank"
             rel="noopener noreferrer"
             aria-label="Spotify"
@@ -100,7 +97,7 @@ export function Footer() {
           </Link>
 
           <Link
-            href="https://deezer.com"
+            href="https://www.deezer.com/en/artist/281712681"
             target="_blank"
             rel="noopener noreferrer"
             aria-label="Deezer"
@@ -108,9 +105,18 @@ export function Footer() {
           >
             <FaDeezer />
           </Link>
+
+          <Link
+            href="https://suno.com/@flordesprit"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Suno"
+            className={`${iconBase} ${iconSize} ${iconHover} text-white/80 hover:text-yellow-400`}
+          >
+            <HiOutlineMusicalNote />
+          </Link>
         </nav>
 
-        {/* Fine séparation + copyright */}
         <div className="mt-8 sm:mt-10 h-px w-full bg-white/10" />
         <p className="mt-4 sm:mt-6 text-center text-xs sm:text-sm text-white/60">
           {t.copyright}

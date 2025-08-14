@@ -2,6 +2,10 @@
 
 import { FaArrowDown } from 'react-icons/fa';
 import { useLocale } from '@/hooks/useLocale';
+import { Raleway } from 'next/font/google';
+
+// Fonts
+const raleway = Raleway({ weight: ['400', '600', '700'], subsets: ['latin'] });
 
 type HeroSectionProps = {
   nextSectionId?: string;
@@ -19,13 +23,13 @@ export function HeroSection({
 
   const t = {
     fr: {
-      title: 'Bienvenue au spectacle',
-      description: "Le groove déjanté de Flore d'Esprit vous attend.",
+      title: "Flore d'Esprit",
+      description: 'Venez écouter, laissez-vous emporter.',
       buttonLabel: 'Aller à la section suivante',
     },
     en: {
-      title: 'Welcome to the show',
-      description: 'Flore d’ Esprit’s crazy groove awaits you.',
+      title: "Flore d'Esprit",
+      description: 'Come listen, let it take you away.',
       buttonLabel: 'Go to next section',
     },
   }[locale];
@@ -34,12 +38,9 @@ export function HeroSection({
     <section
       className={[
         'relative w-full',
-        // Hauteur = viewport - navbar ; svh corrige iOS
         'overflow-hidden',
         'bg-no-repeat bg-cover',
-        // Cadrage : mobile centré, tablette/desktop légèrement relevé
         'bg-center md:bg-[position:center_35%] lg:bg-[position:center_25%]',
-        // Anim: OFF mobile, ON ≥ md
         'motion-safe:md:animate-zoom',
         'flex items-center justify-center',
       ].join(' ')}
@@ -48,23 +49,27 @@ export function HeroSection({
         minHeight: `calc(100svh - ${navbarHeightPx}px)`,
       }}
     >
-      {/* voile pour lisibilité */}
+      {/* Voile pour lisibilité */}
       <div
         className="absolute inset-0 bg-gradient-to-b from-black/45 via-black/25 to-black/45"
         aria-hidden
       />
 
-      {/* contenu */}
+      {/* Contenu */}
       <div className="relative w-full max-w-5xl mx-auto px-4 sm:px-6 text-center">
-        <h1 className="font-bold mb-3 drop-shadow-[0_0_10px_rgba(255,255,255,0.6)] text-[clamp(28px,6vw,64px)]">
+        <h1
+          className={`${raleway.className} font-bold tracking-tight mb-3 drop-shadow-[0_1px_8px_rgba(0,0,0,0.35)] text-[clamp(32px,6.2vw,68px)]`}
+        >
           {t.title}
         </h1>
-        <p className="mx-auto max-w-2xl text-slate-100/90 drop-shadow text-[clamp(16px,3.6vw,28px)]">
+        <p
+          className={`${raleway.className} font-normal mx-auto max-w-2xl text-slate-100/90 tracking-normal drop-shadow text-[clamp(16px,3.2vw,26px)]`}
+        >
           {t.description}
         </p>
       </div>
 
-      {/* flèche : anim ON ≥ md seulement */}
+      {/* Flèche */}
       <a
         href={`#${nextSectionId}`}
         aria-label={t.buttonLabel}
