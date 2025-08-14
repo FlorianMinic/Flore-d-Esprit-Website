@@ -105,15 +105,16 @@ export function NavBar() {
     },
   }[locale];
 
-  const links = [
-    { label: t.home, href: '/' },
-    { label: t.news, href: '/news' },
-    { label: t.aboutme, href: '/aboutme' },
-    { label: t.partners, href: '/partners' },
-    { label: t.contact, href: '/contact' },
-    { label: t.creationsAI, href: '/creation-ai' },
-    { label: t.merch, href: '/merch' },
-  ];
+const links = [
+  { label: t.home, href: '/' },
+  { label: t.creationsAI, href: '/creation-ai' },
+  { label: t.news, href: '/news' },
+  { label: t.aboutme, href: '/aboutme' },
+  { label: t.partners, href: '/partners' },
+  { label: t.merch, href: '/merch' },
+  { label: t.contact, href: '/contact' },
+];
+
 
   // Ferme les panneaux en navigation
   useEffect(() => {
