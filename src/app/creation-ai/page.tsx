@@ -132,18 +132,6 @@ export default function CreationAIPage() {
       img: { src: '/creations/tools/midjourney.jpg', alt: 'Midjourney artworks' },
     },
     {
-      key: 'chatgpt',
-      title: isFr ? 'ChatGPT – Paroles & architecture' : 'ChatGPT – Lyrics & architecture',
-      subtitle: isFr ? 'Thèmes, structure, contraintes stylistiques.' : 'Themes, structure, stylistic constraints.',
-      body: isFr
-        ? `Je définis le cadre: point de vue, champ lexical, interdits.\nJe génère plusieurs canevas (couplets, pré-chorus, refrain) et je réécris pour la voix.`
-        : `I define the frame: POV, lexicon, taboos.\nI generate multiple scaffolds (verses, pre-chorus, chorus) then rewrite for the voice.`,
-      bullets: isFr
-        ? ['Brief: intention + émotion cible', 'Itérations: 3–5 versions, mix & match', 'Sortie: texte chantable + repères métriques']
-        : ['Brief: intent + target emotion', 'Iterations: 3–5 versions, mix & match', 'Output: singable text + metric cues'],
-      img: { src: '/creations/tools/chatgpt.jpg', alt: 'ChatGPT writing' },
-    },
-    {
       key: 'kling',
       title: isFr ? 'Kling AI – Clips génératifs' : 'Kling AI – Generative clips',
       subtitle: isFr ? 'Plans courts, effets, surréalisme maîtrisé.' : 'Short shots, effects, controlled surrealism.',

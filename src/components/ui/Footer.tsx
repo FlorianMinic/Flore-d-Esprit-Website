@@ -47,7 +47,7 @@ export function Footer() {
           className="mx-auto max-w-3xl flex flex-wrap items-center justify-center gap-3 sm:gap-4 md:gap-5"
         >
           <Link
-            href="https://www.youtube.com/@FloredEsprit-k7cX"
+            href="https://www.youtube.com/@FloredEsprit-k7c"
             target="_blank"
             rel="noopener noreferrer"
             aria-label="YouTube"
