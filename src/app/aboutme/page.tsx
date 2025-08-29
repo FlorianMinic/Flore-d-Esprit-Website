@@ -20,7 +20,6 @@ export default function AboutMePage() {
         quickFacts: isFr ? 'Infos clés' : 'Quick Facts',
         bio: isFr ? 'Biographie' : 'Biography',
         listen: isFr ? 'Écouter la musique' : 'Listen to the music',
-        downloads: isFr ? 'Médias à télécharger' : 'Downloadable Media',
         photos: isFr ? 'Sélection de photos' : 'Photo Selection',
         contact: isFr ? 'Contact & Booking' : 'Contact & Booking',
       },
@@ -49,8 +48,6 @@ export default function AboutMePage() {
     'rounded-2xl border border-white/10 bg-white/[0.05] backdrop-blur-md shadow-[0_0_0_1px_rgba(255,255,255,0.03)]';
   const heading = 'text-2xl md:text-3xl font-bold tracking-tight';
   const subHeading = 'text-sm uppercase tracking-wider text-slate-300/80';
-  const ringable =
-    'transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400/70 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950';
 
   return (
     <main className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 text-slate-100">
@@ -101,22 +98,6 @@ export default function AboutMePage() {
 
             <h1 className={`${heading} text-cyan-300`}>{t.title}</h1>
             <p className="mt-4 text-base md:text-lg text-slate-300 max-w-3xl">{t.subtitle}</p>
-
-            <div className="mt-8 flex flex-wrap gap-3">
-              <a
-                href="mailto:floredesprit1@gmail.com"
-                className={`${ringable} inline-flex items-center gap-2 rounded-full bg-cyan-700 hover:bg-cyan-600 text-white px-5 py-2.5 text-sm font-medium shadow`}
-              >
-                {isFr ? 'Contacter' : 'Contact'}
-              </a>
-              <Link
-                href="/downloads/press-release.pdf"
-                target="_blank"
-                className={`${ringable} inline-flex items-center gap-2 rounded-full border border-cyan-400/30 hover:border-cyan-300/70 px-5 py-2.5 text-sm font-medium`}
-              >
-                {isFr ? 'Télécharger le dossier (PDF)' : 'Download press kit (PDF)'}
-              </Link>
-            </div>
           </div>
         </div>
       </section>
@@ -144,7 +125,7 @@ export default function AboutMePage() {
         </div>
       </section>
 
-      {/* BIO (mise à jour) */}
+      {/* BIO */}
       <section className="px-6 md:px-10 pb-12">
         <div className="max-w-6xl mx-auto grid gap-8 lg:grid-cols-5 items-start">
           <div className={`lg:col-span-3 ${card} p-6`}>
@@ -175,53 +156,16 @@ export default function AboutMePage() {
                 height="352"
                 allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
                 loading="lazy"
-                className={`${ringable} rounded-xl`}
+                className="rounded-xl"
               />
             </div>
             <Link
               href="https://suno.com/@flordesprit"
               target="_blank"
-              className={`${card} ${ringable} grid place-items-center p-6 hover:bg-white/[0.07]`}
+              className={`${card} grid place-items-center p-6 hover:bg-white/[0.07]`}
             >
               <span className="text-lg font-semibold">{isFr ? 'Écouter sur Suno' : 'Listen on Suno'}</span>
             </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* DOWNLOADS */}
-      <section className="px-6 md:px-10 pb-16">
-        <div className="max-w-6xl mx-auto">
-          <h2 className={`${heading} text-cyan-200 mb-4`}>{t.sections.downloads}</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {[
-              [isFr ? 'Dossier de presse (PDF)' : 'Press Release (PDF)', '/downloads/press-release.pdf'],
-              [isFr ? 'Biographie (PDF)' : 'Biography (PDF)', '/downloads/biographie.pdf'],
-              [isFr ? 'Photos HD (ZIP)' : 'HD Photos (ZIP)', '/downloads/photos.zip'],
-            ].map(([label, href]) => (
-              <Link
-                key={href as string}
-                href={href as string}
-                target="_blank"
-                className={`${card} ${ringable} p-4 hover:bg-white/[0.07]`}
-              >
-                <div className="flex items-center justify-between">
-                  <span className="font-medium">{label as string}</span>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    fill="currentColor"
-                    className="h-5 w-5 opacity-70"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M3 12a9 9 0 1118 0 9 9 0 01-18 0zm9-5.25a.75.75 0 01.75.75v5.19l1.72-1.72a.75.75 0 111.06 1.06l-3 3a.75.75 0 01-1.06 0l-3-3a.75.75 0 111.06-1.06l1.72 1.72V7.5A.75.75 0 0112 6.75z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                </div>
-              </Link>
-            ))}
           </div>
         </div>
       </section>
@@ -254,7 +198,7 @@ export default function AboutMePage() {
             </div>
             <a
               href="mailto:floredesprit1@gmail.com"
-              className={`${ringable} inline-flex items-center gap-2 rounded-full bg-cyan-700 hover:bg-cyan-600 text-white px-5 py-2.5 text-sm font-medium shadow`}
+              className="inline-flex items-center gap-2 rounded-full bg-cyan-700 hover:bg-cyan-600 text-white px-5 py-2.5 text-sm font-medium shadow"
             >
               floredesprit1@gmail.com
             </a>
