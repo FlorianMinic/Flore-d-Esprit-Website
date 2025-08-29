@@ -1,7 +1,6 @@
 'use client';
 
 import Image from 'next/image';
-import Link from 'next/link';
 import { useLocale } from '@/hooks/useLocale';
 
 type CTA = { href: string; label: string };
@@ -16,7 +15,7 @@ type ToolBlockProps = {
 };
 
 function ToolBlock(props: ToolBlockProps) {
-  const { title, subtitle, body, bullets, cta, img } = props;
+  const { title, subtitle, body, bullets, img } = props;
   return (
     <article className="rounded-3xl border border-white/10 bg-white/5 backdrop-blur-md p-6 md:p-8">
       <div className="grid md:grid-cols-5 gap-6 items-center">
@@ -36,17 +35,6 @@ function ToolBlock(props: ToolBlockProps) {
                 </li>
               ))}
             </ul>
-          ) : null}
-
-          {cta ? (
-            <div className="mt-5">
-              <Link
-                href={cta.href}
-                className="inline-flex items-center rounded-full bg-cyan-700 hover:bg-cyan-600 text-white px-4 py-2 text-sm font-medium shadow"
-              >
-                {cta.label}
-              </Link>
-            </div>
           ) : null}
         </div>
         <div className="md:col-span-2 order-1 md:order-2">
@@ -117,7 +105,7 @@ export default function CreationAIPage() {
             'Criteria: emotion, memorability, singability',
             'Output: vocal hook + progression idea',
           ],
-      img: { src: '/creations/tools/suno.jpg', alt: 'Suno AI preview' },
+      img: { src: '/images/Suno.jpg', alt: 'Suno AI preview' },
     },
     {
       key: 'midjourney',
@@ -129,7 +117,7 @@ export default function CreationAIPage() {
       bullets: isFr
         ? ['Prompts: style + palette + focale', 'Séries: 4 → upscale → variantes', 'Export: square + portrait + widescreen']
         : ['Prompts: style + palette + focal length', 'Series: 4 → upscale → variants', 'Export: square + portrait + widescreen'],
-      img: { src: '/creations/tools/midjourney.jpg', alt: 'Midjourney artworks' },
+      img: { src: '/images/midjourney.png', alt: 'Midjourney artworks' },
     },
     {
       key: 'kling',
@@ -141,7 +129,7 @@ export default function CreationAIPage() {
       bullets: isFr
         ? ['Storyboard mesure par mesure', 'Seed verrouillée pour les reprises', 'Rendu: 1080p → upscale si besoin']
         : ['Bar-by-bar storyboard', 'Locked seed for reprises', 'Render: 1080p → upscale if needed'],
-      img: { src: '/creations/tools/kling.jpg', alt: 'Kling AI shots' },
+      img: { src: '/images/klingai.png', alt: 'Kling AI shots' },
     },
     {
       key: 'veo3',
@@ -153,7 +141,7 @@ export default function CreationAIPage() {
       bullets: isFr
         ? ['Durées: 6–12s', 'Indications: caméra + lumière + décor', 'But: continuité visuelle entre séquences']
         : ['Durations: 6–12s', 'Specs: camera + light + set', 'Goal: visual continuity between sequences'],
-      img: { src: '/creations/tools/veo3.jpg', alt: 'Veo 3 sequence' },
+      img: { src: '/images/veo3.png', alt: 'Veo 3 sequence' },
     },
     {
       key: 'davinci',
@@ -165,7 +153,7 @@ export default function CreationAIPage() {
       bullets: isFr
         ? ['Montage en rythme avec la musique', 'Corrections colorimétriques cohérentes', 'Transitions fluides et adaptées au style']
         : ['Editing in sync with music', 'Consistent color grading', 'Smooth transitions matching the style'],
-      img: { src: '/creations/tools/davinci.jpg', alt: 'DaVinci Resolve editing' },
+      img: { src: '/images/davinci.png', alt: 'DaVinci Resolve editing' },
     },
     {
       key: 'fl',
@@ -177,7 +165,7 @@ export default function CreationAIPage() {
       bullets: isFr
         ? ['Routing par bus (vox, drums, FX)', 'Gain staging -12 dBFS headroom', 'Limiter en sortie uniquement au master']
         : ['Bus routing (vox, drums, FX)', 'Gain staging -12 dBFS headroom', 'Limiter only on the final master'],
-      img: { src: '/creations/tools/fl-studio.jpg', alt: 'FL Studio session' },
+      img: { src: '/images/flstudio.png', alt: 'FL Studio session' },
     },
   ];
 
@@ -190,14 +178,6 @@ export default function CreationAIPage() {
               {t.title}
             </h1>
             <p className="mt-4 text-lg md:text-xl text-slate-300 max-w-3xl">{t.sub}</p>
-            <div className="mt-8">
-              <Link
-                href="/presskit"
-                className="inline-flex items-center rounded-full bg-cyan-700 hover:bg-cyan-600 text-white px-5 py-2.5 text-sm font-medium shadow"
-              >
-                {t.cta}
-              </Link>
-            </div>
             <div className="hidden md:block absolute -right-6 -bottom-6 w-[300px] aspect-[4/5] rounded-2xl overflow-hidden border border-white/10">
               <Image src="/creations/hero-visual.jpg" alt="AI mood visual" fill className="object-cover opacity-80" />
             </div>
